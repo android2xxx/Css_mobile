@@ -13,6 +13,7 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         //ok
         //hieuht comment
+        //tupa comment test
         setContentView(R.layout.activity_main);
     }
 
