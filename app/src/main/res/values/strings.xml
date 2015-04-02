@@ -3,8 +3,16 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+
     <string name="button_send">Login</string>
     <string name="title_activity_main_menu">MainMenu</string>
     <string name="drawer_open">Open drawer</string>
     <string name="drawer_close">Close drawer</string>
+
+    <string name="title_activity_login">LoginActivity</string>
+
+    <string name="lb_remember_me">Remember me</string>
+    <string name="lb_login">Login</string>
+    <string name="lb_account">Account</string>
+    <string name="lb_password">Password</string>
 </resources>

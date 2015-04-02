@@ -1,23 +1,30 @@
 package com.microtecweb.css_mobile;
 
-import android.content.Intent;
+import android.content.Context;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.CheckBox;
+import android.widget.Button;
+import android.widget.Toast;
+
+import java.util.concurrent.ExecutionException;
+
+import taskserver.LoginToWS;
 
 
 public class MainActivity extends ActionBarActivity {
+    final Context context = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //ok
-        //hieuht comment
-        //tupa comment test
         setContentView(R.layout.activity_main);
+
+
     }
 
 
@@ -41,11 +48,5 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    public void sendMessage(View view) {
-// Do something in response to button
-        Intent intent = new Intent(this, MainMenu.class);
-        startActivity(intent);
     }
 }
