@@ -1,7 +1,5 @@
 package com.microtecweb.css_mobile;
 
-import android.app.Activity;
-import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,18 +8,19 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import adapter.OpenServiceAdapter;
+import entity.EService;
 import function.LoadFragment;
-import function.XMLParser;
-import taskserver.GetOpenService;
-import taskserver.LoginToWS;
+import taskserver.GetOpenServiceTask;
 
 
 /**
@@ -74,32 +73,31 @@ public class OpenServiceFragment extends Fragment {
             openServerList.add(map);
         }*/
 
-        GetOpenService task = new GetOpenService(this.getActivity());
-        task.execute("12345", "1111", "");
+        GetOpenServiceTask task = new GetOpenServiceTask(this.getActivity());
+        task.execute("http://192.168.66.87:5559/Home/LOL");
+        Gson gson = new Gson();
+        try {
+            String json = task.get();
+            Type collectionType = new TypeToken<List<EService>>(){}.getType();
+            List<EService> lstService = gson.fromJson(json, collectionType);
 
-          //  result = task.get();
-
-
-        for (int i = 0; i < 20; i++) {
-            // creating new HashMap
-            HashMap<String, String> map = new HashMap<String, String>();
-
-            map.put(KEY_ATMID, KEY_ATMID + "__" +  i);
-            map.put(KEY_BANK, KEY_BANK + "__" +  i);
-            map.put(KEY_LOCATION, KEY_LOCATION + "__" +  i);
-            map.put(KEY_ISSUE, KEY_ISSUE + "__" +  i);
-
-
-            // adding HashList to ArrayList
-            openServerList.add(map);
+            for(EService itemService : lstService)
+            {
+                HashMap<String, String> map = new HashMap<String, String>();
+                map.put(KEY_ATMID, itemService.getAtmid());
+                map.put(KEY_BANK, itemService.getBank());
+                map.put(KEY_LOCATION, itemService.getLocation());
+                map.put(KEY_ISSUE, itemService.getIssue());
+                openServerList.add(map);
+                lstOpenService = (ListView) view.findViewById(R.id.lstOpenService);
+                adapter = new OpenServiceAdapter(this.getActivity(), openServerList);
+                lstOpenService.setAdapter(adapter);
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
         }
-
-        lstOpenService = (ListView) view.findViewById(R.id.lstOpenService);
-
-        // Getting adapter by passing xml data ArrayList
-        adapter = new OpenServiceAdapter(this.getActivity(), openServerList);
-        lstOpenService.setAdapter(adapter);
-
         // Click event for single list row
         lstOpenService.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

@@ -12,6 +12,7 @@
             android:text="@string/lb_atmid"
             android:layout_width="1dip"
             android:layout_weight="1"
+            android:textStyle="bold"
             android:layout_height="wrap_content" />
 
         <TextView
@@ -24,6 +25,7 @@
             android:text="@string/lb_bank"
             android:layout_width="1dip"
             android:layout_weight="1"
+            android:textStyle="bold"
             android:layout_height="wrap_content" />
 
         <TextView
@@ -41,6 +43,7 @@
             android:text="@string/lb_location"
             android:layout_width="1dip"
             android:layout_weight="1"
+            android:textStyle="bold"
             android:layout_height="wrap_content" />
 
         <TextView
@@ -57,6 +60,7 @@
 
         <TextView
             android:text="@string/lb_issue"
+            android:textStyle="bold"
             android:layout_width="1dip"
             android:layout_weight="1"
             android:layout_height="wrap_content" />

@@ -27,7 +27,7 @@ import java.io.IOException;
 import function.Function;
 
 
-public class GetOpenService extends AsyncTask<String, Integer, String> {
+public class GetOpenServiceTask extends AsyncTask<String, Integer, String> {
     private static final String SOAP_ACTION_UPLOAD_ATM_MAP = "http://tempuri.org/UploadAtmMap";
     private static final String OPERATION_NAME_UPLOAD_ATM_MAP = "UploadAtmMap";
     private static final String SOAP_ACTION_LOGIN = "http://tempuri.org/Login";
@@ -36,7 +36,7 @@ public class GetOpenService extends AsyncTask<String, Integer, String> {
 
     private Context mContext;
 
-    public GetOpenService(Context context) {
+    public GetOpenServiceTask(Context context) {
         mContext = context;
     }
 
@@ -45,37 +45,39 @@ public class GetOpenService extends AsyncTask<String, Integer, String> {
     protected String doInBackground(String... params) {
         Log.i(TAG, "doInBackground");
         String content = "";
-        if(Function.isURLReachable(mContext, params[2])) {
-            StringBuilder url = new StringBuilder(params[2]);
+        if(Function.isURLReachable(mContext, params[0])) {
+            StringBuilder url = new StringBuilder(params[0]);
 
             HttpGet get = new HttpGet (url.toString());
             DefaultHttpClient client = new DefaultHttpClient();
 
-            HttpGet httpget = new HttpGet(params[2]);
-            ResponseHandler<String> responseHandler = new BasicResponseHandler();
+
+         /*   ResponseHandler<String> responseHandler = new BasicResponseHandler();
             try {
                 content = client.execute(get, responseHandler);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
-            HttpResponse r = null;
+*/
+            HttpResponse response = null;
 
 
 
             try {
-                r = client.execute(get);
+                response = client.execute(get);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            int status = r.getStatusLine().getStatusCode();
+            int status = response.getStatusLine().getStatusCode();
 
             if(status == 200)
             {
-
-
-
-                content = "ok";
+                HttpEntity entity = response.getEntity();
+                try {
+                    content = EntityUtils.toString(entity);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
             else
             {
