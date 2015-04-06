@@ -50,11 +50,11 @@ public class MainMenu extends ActionBarActivity {
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow,
                 GravityCompat.START);
 
-        dataList.add(new DrawerItem("Request to Open Service", R.drawable.ic_open_service));
-        dataList.add(new DrawerItem("My Open Service", R.drawable.ic_action_gamepad));
-        dataList.add(new DrawerItem("My Completed Service", R.drawable.ic_close_service));
+        dataList.add(new DrawerItem("Service Entry", R.drawable.ic_open_service));
+        dataList.add(new DrawerItem("My Open Service", R.drawable.ic_action_cloud));
+        dataList.add(new DrawerItem("Completed Service", R.drawable.ic_close_service));
         dataList.add(new DrawerItem("Todo List", R.drawable.ic_action_search));
-        dataList.add(new DrawerItem("Get Service History from SMS", R.drawable.ic_action_email));
+        dataList.add(new DrawerItem("Service History", R.drawable.ic_action_email));
         dataList.add(new DrawerItem("Talk to Leader", R.drawable.ic_talk_leader));
         dataList.add(new DrawerItem("About", R.drawable.ic_action_about));
         dataList.add(new DrawerItem("Help", R.drawable.ic_action_help));
@@ -88,7 +88,7 @@ public class MainMenu extends ActionBarActivity {
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
         if (savedInstanceState == null) {
-            //SelectItem(0);
+            SelectItem(1);
         }
     }
 
