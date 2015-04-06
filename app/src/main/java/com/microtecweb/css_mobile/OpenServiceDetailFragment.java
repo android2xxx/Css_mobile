@@ -7,6 +7,9 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import function.LoadFragment;
 
 
 /**
@@ -27,7 +30,13 @@ public class OpenServiceDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_open_service_detail, container, false);
+        Bundle extras = getArguments();
+        long serviceId = extras.getLong(LoadFragment.PACKAGE_ID);
+
+        View view = inflater.inflate(R.layout.fragment_open_service_detail, container, false);
+        TextView tvDetail = (TextView) view.findViewById(R.id.lbDetail);
+        tvDetail.setText("Detail: " + serviceId);
+        return  view;
     }
 
 }

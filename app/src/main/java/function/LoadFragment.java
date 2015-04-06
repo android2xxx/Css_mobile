@@ -3,6 +3,7 @@ package function;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.os.Bundle;
 
 import com.microtecweb.css_mobile.R;
 
@@ -11,13 +12,21 @@ import com.microtecweb.css_mobile.R;
  */
 public class LoadFragment {
     FragmentManager fragmentManager;
+    public static final String PACKAGE_ID = "PACKAGE_ID";
+
     public LoadFragment(FragmentManager fragmentManager)
     {
         this.fragmentManager = fragmentManager;
     }
 
-    public void initializeFragment(Fragment fragment) {
+    public void initializeFragment(Fragment fragment, long id) {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        if(id != 0) {
+            Bundle arguments = new Bundle();
+            arguments.putLong(PACKAGE_ID, id);
+            fragment.setArguments(arguments);
+        }
         fragmentTransaction.replace(R.id.content_frame, fragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();

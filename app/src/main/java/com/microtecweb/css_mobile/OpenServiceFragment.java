@@ -34,12 +34,12 @@ import taskserver.GetOpenServiceTask;
 public class OpenServiceFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    public static final String KEY_SERVICE = "Service";
-    public static final String KEY_ATMID = "ATMID";
+    public static final String KEY_SERVICE_ID = "ServiceId";
+    public static final String KEY_ATM_ID = "ATMId";
     public static final String KEY_BANK = "Bank";
     public static final String KEY_LOCATION = "Location";
     public static final String KEY_ISSUE = "Issue";
-    private static final String URL = "test";
+    private static final String URL = "http://192.168.66.87:5559/Home/GetAllServicesByUserAssignedId?userAssignedId=";
 
     ListView lstOpenService;
     OpenServiceAdapter adapter;
@@ -51,30 +51,9 @@ public class OpenServiceFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_open, container, false);
 
         ArrayList<HashMap<String, String>> openServerList = new ArrayList<HashMap<String, String>>();
-        /*
-        XMLParser parser = new XMLParser();
-        String xml = parser.getXmlFromUrl(URL); // getting XML from URL
-        Document doc = parser.getDomElement(xml); // getting DOM element
-
-        NodeList nl = doc.getElementsByTagName(KEY_SERVICE);
-        // looping through all song nodes &lt;song&gt;
-        for (int i = 0; i < nl.getLength(); i++) {
-            // creating new HashMap
-            HashMap<String, String> map = new HashMap<String, String>();
-            Element e = (Element) nl.item(i);
-            // adding each child node to HashMap key =&gt; value
-            map.put(KEY_ATMID, parser.getValue(e, KEY_ATMID));
-            map.put(KEY_BANK, parser.getValue(e, KEY_BANK));
-            map.put(KEY_LOCATION, parser.getValue(e, KEY_LOCATION));
-            map.put(KEY_ISSUE, parser.getValue(e, KEY_ISSUE));
-
-
-            // adding HashList to ArrayList
-            openServerList.add(map);
-        }*/
 
         GetOpenServiceTask task = new GetOpenServiceTask(this.getActivity());
-        task.execute("http://192.168.66.87:5559/Home/LOL");
+        task.execute(URL + 6);
         Gson gson = new Gson();
         try {
             String json = task.get();
@@ -84,7 +63,8 @@ public class OpenServiceFragment extends Fragment {
             for(EService itemService : lstService)
             {
                 HashMap<String, String> map = new HashMap<String, String>();
-                map.put(KEY_ATMID, itemService.getAtmid());
+                map.put(KEY_SERVICE_ID, itemService.getServiceId());
+                map.put(KEY_ATM_ID, itemService.getAtmId());
                 map.put(KEY_BANK, itemService.getBank());
                 map.put(KEY_LOCATION, itemService.getLocation());
                 map.put(KEY_ISSUE, itemService.getIssue());
@@ -102,7 +82,7 @@ public class OpenServiceFragment extends Fragment {
         lstOpenService.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                loadFragmentObj.initializeFragment(new OpenServiceDetailFragment());
+                loadFragmentObj.initializeFragment(new OpenServiceDetailFragment(), id);
             }
         });
 

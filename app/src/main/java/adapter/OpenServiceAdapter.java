@@ -1,7 +1,5 @@
 package adapter;
 
-import android.app.Activity;
-import android.app.Fragment;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,7 +40,8 @@ public class OpenServiceAdapter extends BaseAdapter {
     }
 
     public long getItemId(int position) {
-        return position * 100;
+        HashMap<String, String> lstOpenService = new HashMap<String, String>();
+        return Long.parseLong(data.get(position).get(OpenServiceFragment.KEY_SERVICE_ID));
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -59,7 +58,7 @@ public class OpenServiceAdapter extends BaseAdapter {
         lstOpenService = data.get(position);
 
         // Setting all values in listview
-        tvATMID.setText(lstOpenService.get(OpenServiceFragment.KEY_ATMID));
+        tvATMID.setText(lstOpenService.get(OpenServiceFragment.KEY_ATM_ID));
         tvBank.setText(lstOpenService.get(OpenServiceFragment.KEY_BANK));
         tvLocation.setText(lstOpenService.get(OpenServiceFragment.KEY_LOCATION));
         tvIssue.setText(lstOpenService.get(OpenServiceFragment.KEY_ISSUE));

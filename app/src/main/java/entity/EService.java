@@ -4,40 +4,50 @@ package entity;
  * Created by HieuHT on 04/03/2015.
  */
 public class EService {
-    private String atmid;
-    private String bank;
-    private String location;
-    private String issue;
 
-    public String getAtmid() {
-        return atmid;
+    private String ServiceId;
+    private String AtmId;
+    private String Bank;
+    private String Location;
+    private String Issue;
+
+    public String getAtmId() {
+        return AtmId;
     }
 
-    public void setAtmid(String atmid) {
-        this.atmid = atmid;
+    public void setAtmId(String atmId) {
+        this.AtmId = atmId;
     }
 
     public String getBank() {
-        return bank;
+        return Bank;
     }
 
     public void setBank(String bank) {
-        this.bank = bank;
+        this.Bank = bank;
     }
 
     public String getLocation() {
-        return location;
+        return Location;
     }
 
     public void setLocation(String location) {
-        this.location = location;
+        this.Location = location;
     }
 
     public String getIssue() {
-        return issue;
+        return Issue;
     }
 
     public void setIssue(String issue) {
-        this.issue = issue;
+        this.Issue = issue;
+    }
+
+    public String getServiceId() {
+        return ServiceId;
+    }
+
+    public void setServiceId(String serviceId) {
+        ServiceId = serviceId;
     }
 }
