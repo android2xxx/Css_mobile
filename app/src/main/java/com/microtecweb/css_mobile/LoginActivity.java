@@ -5,24 +5,19 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import java.util.concurrent.ExecutionException;
-
 import function.Function;
-import taskserver.LoginToWS;
+import taskserver.QueryToServiceTask;
 
 
 public class LoginActivity extends ActionBarActivity {
     final Context context = this;
-    private static final String SOAP_ADDRESS = "http://192.168.66.87/CSSWebservice/css.asmx";
+    private static final String URL = "http://192.168.66.87:5559/Home/Authenticate?";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +41,8 @@ public class LoginActivity extends ActionBarActivity {
                     if (!Function.isOnline(LoginActivity.this)) {
                         result = "Network is not available";
                     } else {
-                        LoginToWS task = new LoginToWS(LoginActivity.this);
-                        task.execute(txtAccount.getText().toString(), txtPassword.getText().toString(), SOAP_ADDRESS);
+                        QueryToServiceTask task = new QueryToServiceTask(LoginActivity.this);
+                        task.execute(URL + "UserName=" + txtAccount.getText().toString() + "&Password=" + txtPassword.getText().toString());
                         try {
                             result = task.get();
                             if (result.equals("true")) {

@@ -22,4 +22,15 @@
     <string name="lb_location">Location</string>
     <string name="lb_issue">Issue</string>
     <string name="lb_bank">Bank</string>
+    <string name="lb_serial">Serial</string>
+    <string name="lb_branch">Branch</string>
+    <string name="lb_serviceid">ServiceId</string>
+    <string name="lb_contract">Contract</string>
+    <string name="lb_starttime">Start Time</string>
+    <string name="lb_solution">Solution</string>
+    <string name="lb_checkin">Check in</string>
+     <string name="lb_closeservice">Close Service</string>
+    <string name="lb_partname">Part Name</string>
+    <string name="lb_quantity">Quantity</string>
+    <string name="lb_store">Store</string>
 </resources>

@@ -3,7 +3,7 @@ package entity;
 /**
  * Created by HieuHT on 04/03/2015.
  */
-public class EService {
+public class ESummaryService {
 
     private String ServiceId;
     private String AtmId;

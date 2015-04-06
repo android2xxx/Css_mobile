@@ -23,7 +23,11 @@ public class OpenServiceAdapter extends BaseAdapter {
 
     private ArrayList<HashMap<String, String>> data;
     private static LayoutInflater inflater = null;
-
+    public static final String KEY_SERVICE_ID = "ServiceId";
+    public static final String KEY_ATM_ID = "ATMId";
+    public static final String KEY_BANK = "Bank";
+    public static final String KEY_LOCATION = "Location";
+    public static final String KEY_ISSUE = "Issue";
 
     public OpenServiceAdapter(Context  a, ArrayList<HashMap<String, String>> d) {
 
@@ -41,7 +45,7 @@ public class OpenServiceAdapter extends BaseAdapter {
 
     public long getItemId(int position) {
         HashMap<String, String> lstOpenService = new HashMap<String, String>();
-        return Long.parseLong(data.get(position).get(OpenServiceFragment.KEY_SERVICE_ID));
+        return Long.parseLong(data.get(position).get(KEY_SERVICE_ID));
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -58,10 +62,10 @@ public class OpenServiceAdapter extends BaseAdapter {
         lstOpenService = data.get(position);
 
         // Setting all values in listview
-        tvATMID.setText(lstOpenService.get(OpenServiceFragment.KEY_ATM_ID));
-        tvBank.setText(lstOpenService.get(OpenServiceFragment.KEY_BANK));
-        tvLocation.setText(lstOpenService.get(OpenServiceFragment.KEY_LOCATION));
-        tvIssue.setText(lstOpenService.get(OpenServiceFragment.KEY_ISSUE));
+        tvATMID.setText(lstOpenService.get(KEY_ATM_ID));
+        tvBank.setText(lstOpenService.get(KEY_BANK));
+        tvLocation.setText(lstOpenService.get(KEY_LOCATION));
+        tvIssue.setText(lstOpenService.get(KEY_ISSUE));
         return vi;
     }
 }

@@ -18,9 +18,9 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import adapter.OpenServiceAdapter;
-import entity.EService;
+import entity.ESummaryService;
 import function.LoadFragment;
-import taskserver.GetOpenServiceTask;
+import taskserver.QueryToServiceTask;
 
 
 /**
@@ -34,11 +34,7 @@ import taskserver.GetOpenServiceTask;
 public class OpenServiceFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    public static final String KEY_SERVICE_ID = "ServiceId";
-    public static final String KEY_ATM_ID = "ATMId";
-    public static final String KEY_BANK = "Bank";
-    public static final String KEY_LOCATION = "Location";
-    public static final String KEY_ISSUE = "Issue";
+
     private static final String URL = "http://192.168.66.87:5559/Home/GetAllServicesByUserAssignedId?userAssignedId=";
 
     ListView lstOpenService;
@@ -52,27 +48,27 @@ public class OpenServiceFragment extends Fragment {
 
         ArrayList<HashMap<String, String>> openServerList = new ArrayList<HashMap<String, String>>();
 
-        GetOpenServiceTask task = new GetOpenServiceTask(this.getActivity());
+        QueryToServiceTask task = new QueryToServiceTask(this.getActivity());
         task.execute(URL + 6);
         Gson gson = new Gson();
         try {
             String json = task.get();
-            Type collectionType = new TypeToken<List<EService>>(){}.getType();
-            List<EService> lstService = gson.fromJson(json, collectionType);
+            Type collectionType = new TypeToken<List<ESummaryService>>(){}.getType();
+            List<ESummaryService> lstService = gson.fromJson(json, collectionType);
 
-            for(EService itemService : lstService)
+            for(ESummaryService itemService : lstService)
             {
                 HashMap<String, String> map = new HashMap<String, String>();
-                map.put(KEY_SERVICE_ID, itemService.getServiceId());
-                map.put(KEY_ATM_ID, itemService.getAtmId());
-                map.put(KEY_BANK, itemService.getBank());
-                map.put(KEY_LOCATION, itemService.getLocation());
-                map.put(KEY_ISSUE, itemService.getIssue());
+                map.put(OpenServiceAdapter.KEY_SERVICE_ID, itemService.getServiceId());
+                map.put(OpenServiceAdapter.KEY_ATM_ID, itemService.getAtmId());
+                map.put(OpenServiceAdapter.KEY_BANK, itemService.getBank());
+                map.put(OpenServiceAdapter.KEY_LOCATION, itemService.getLocation());
+                map.put(OpenServiceAdapter.KEY_ISSUE, itemService.getIssue());
                 openServerList.add(map);
-                lstOpenService = (ListView) view.findViewById(R.id.lstOpenService);
-                adapter = new OpenServiceAdapter(this.getActivity(), openServerList);
-                lstOpenService.setAdapter(adapter);
             }
+            lstOpenService = (ListView) view.findViewById(R.id.lstOpenService);
+            adapter = new OpenServiceAdapter(this.getActivity(), openServerList);
+            lstOpenService.setAdapter(adapter);
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
