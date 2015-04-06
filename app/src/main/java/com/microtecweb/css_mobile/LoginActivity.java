@@ -45,20 +45,24 @@ public class LoginActivity extends ActionBarActivity {
                         task.execute(URL + "UserName=" + txtAccount.getText().toString() + "&Password=" + txtPassword.getText().toString());
                         try {
                             result = task.get();
-                            if (result.equals("true")) {
-                                result = "Login successfull";
-                                Boolean remember = ckRememberMe.isChecked();
-                                SharedPreferences.Editor editor = sharedpreferences.edit();
-                                editor.putString("userName", txtAccount.getText().toString());
-                                if (remember) {
-                                    editor.putString("passWord", txtPassword.getText().toString());
-                                    editor.putString("remember", Boolean.toString(true));
-                                } else {
-                                    editor.putString("passWord", "");
-                                    editor.putString("remember", Boolean.toString(false));
+                            if(Function.isNumeric(result)) {
+                                if (Integer.parseInt(result) != 0) {
+
+                                    Boolean remember = ckRememberMe.isChecked();
+                                    SharedPreferences.Editor editor = sharedpreferences.edit();
+                                    editor.putString("userName", txtAccount.getText().toString());
+                                    editor.putInt("userId", Integer.parseInt(result));
+                                    if (remember) {
+                                        editor.putString("passWord", txtPassword.getText().toString());
+                                        editor.putString("remember", Boolean.toString(true));
+                                    } else {
+                                        editor.putString("passWord", "");
+                                        editor.putString("remember", Boolean.toString(false));
+                                    }
+                                    result = "Login successfull";
+                                    editor.commit();
+                                    startActivityMain();
                                 }
-                                editor.commit();
-                                startActivityMain();
                             }
                         } catch (InterruptedException e) {
                             e.printStackTrace();
@@ -77,7 +81,6 @@ public class LoginActivity extends ActionBarActivity {
                 startActivityMain();
             }
         }
-
     }
 
     private  void startActivityMain()

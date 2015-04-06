@@ -1,5 +1,7 @@
 package com.microtecweb.css_mobile;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
@@ -49,40 +51,44 @@ public class OpenServiceFragment extends Fragment {
         ArrayList<HashMap<String, String>> openServerList = new ArrayList<HashMap<String, String>>();
 
         QueryToServiceTask task = new QueryToServiceTask(this.getActivity());
-        task.execute(URL + 6);
-        Gson gson = new Gson();
-        try {
-            String json = task.get();
-            Type collectionType = new TypeToken<List<ESummaryService>>(){}.getType();
-            List<ESummaryService> lstService = gson.fromJson(json, collectionType);
+        final String MyPREFERENCES = "AtmLocationPrefs";
+        final SharedPreferences sharedpreferences = this.getActivity().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        if (sharedpreferences.contains("userId") && sharedpreferences.getInt("userId", 0) != 0) {
+            task.execute(URL + sharedpreferences.getInt("userId", 0));
+            Gson gson = new Gson();
+            try {
+                String json = task.get();
+                Type collectionType = new TypeToken<List<ESummaryService>>() {
+                }.getType();
+                List<ESummaryService> lstService = gson.fromJson(json, collectionType);
 
-            for(ESummaryService itemService : lstService)
-            {
-                HashMap<String, String> map = new HashMap<String, String>();
-                map.put(OpenServiceAdapter.KEY_SERVICE_ID, itemService.getServiceId());
-                map.put(OpenServiceAdapter.KEY_ATM_ID, itemService.getAtmId());
-                map.put(OpenServiceAdapter.KEY_BANK, itemService.getBank());
-                map.put(OpenServiceAdapter.KEY_LOCATION, itemService.getLocation());
-                map.put(OpenServiceAdapter.KEY_ISSUE, itemService.getIssue());
-                openServerList.add(map);
+                for (ESummaryService itemService : lstService) {
+                    HashMap<String, String> map = new HashMap<String, String>();
+                    map.put(OpenServiceAdapter.KEY_SERVICE_ID, itemService.getServiceId());
+                    map.put(OpenServiceAdapter.KEY_ATM_ID, itemService.getAtmId());
+                    map.put(OpenServiceAdapter.KEY_BANK, itemService.getBank());
+                    map.put(OpenServiceAdapter.KEY_LOCATION, itemService.getLocation());
+                    map.put(OpenServiceAdapter.KEY_ISSUE, itemService.getIssue());
+                    openServerList.add(map);
+                }
+                lstOpenService = (ListView) view.findViewById(R.id.lstOpenService);
+                adapter = new OpenServiceAdapter(this.getActivity(), openServerList);
+                lstOpenService.setAdapter(adapter);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
             }
-            lstOpenService = (ListView) view.findViewById(R.id.lstOpenService);
-            adapter = new OpenServiceAdapter(this.getActivity(), openServerList);
-            lstOpenService.setAdapter(adapter);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
+            // Click event for single list row
+            lstOpenService.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    loadFragmentObj.initializeFragment(new OpenServiceDetailFragment(), id);
+                }
+            });
+
+            loadFragmentObj = new LoadFragment(getFragmentManager());
         }
-        // Click event for single list row
-        lstOpenService.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                loadFragmentObj.initializeFragment(new OpenServiceDetailFragment(), id);
-            }
-        });
-
-        loadFragmentObj = new LoadFragment(getFragmentManager());
         return view;
     }
 

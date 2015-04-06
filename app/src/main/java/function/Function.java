@@ -47,4 +47,15 @@ public class Function {
         }
         return false;
     }
+
+    public static boolean isNumeric(String str) {
+        if (str == null)
+            return false;
+        try {
+        /* int i = */ Integer.parseInt(str);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
+    }
 }
