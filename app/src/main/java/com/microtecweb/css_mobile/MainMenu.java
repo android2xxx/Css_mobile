@@ -1,24 +1,25 @@
 package com.microtecweb.css_mobile;
 
-import android.app.FragmentTransaction;
-import android.support.v7.app.ActionBarActivity;
-import java.util.ArrayList;
-import java.util.List;
-
-import android.os.Bundle;
-import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.content.res.Configuration;
+import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.support.v7.app.ActionBar;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import entity.EConstant;
 
 
 public class MainMenu extends ActionBarActivity {
@@ -92,10 +93,9 @@ public class MainMenu extends ActionBarActivity {
         }
     }
 
-
+    Fragment fragment = null;
     public void SelectItem(int possition) {
 
-        Fragment fragment = null;
         Bundle args = new Bundle();
         switch (possition) {
             case 0:
@@ -259,8 +259,15 @@ public class MainMenu extends ActionBarActivity {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position,
                                 long id) {
-            SelectItem(position);
+            SelectItem(position);        }
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == EConstant.REQUEST_CODE_PHOTO_GALLERY || requestCode == EConstant.REQUEST_CODE_TAKE_PHOTO) {
+            OpenServiceFragment a = (OpenServiceFragment) fragment;
+            a.fragmentDetail.onActivityResult(requestCode, resultCode, data);
         }
     }
 }

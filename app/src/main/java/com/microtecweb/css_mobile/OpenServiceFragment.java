@@ -1,9 +1,9 @@
 package com.microtecweb.css_mobile;
 
+import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,41 +20,28 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import adapter.OpenServiceAdapter;
+import entity.EConstant;
 import entity.ESummaryService;
 import function.LoadFragment;
 import taskserver.QueryHttpGetServiceTask;
 
-
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link OpenServiceFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link OpenServiceFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class OpenServiceFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-
-    private static final String URL = "http://192.168.66.87:5559/Home/GetAllServicesByUserAssignedId?userAssignedId=";
 
     ListView lstOpenService;
     OpenServiceAdapter adapter;
     LoadFragment loadFragmentObj;
+    OpenServiceDetailFragment fragmentDetail;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_open, container, false);
-
         ArrayList<HashMap<String, String>> openServerList = new ArrayList<HashMap<String, String>>();
-
         QueryHttpGetServiceTask task = new QueryHttpGetServiceTask(this.getActivity());
-        final String MyPREFERENCES = "AtmLocationPrefs";
-        final SharedPreferences sharedpreferences = this.getActivity().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-        if (sharedpreferences.contains("userId") && sharedpreferences.getInt("userId", 0) != 0) {
-            task.execute(URL + sharedpreferences.getInt("userId", 0));
+        final SharedPreferences sharedpreferences = this.getActivity().getSharedPreferences(EConstant.MY_PREFERENCES, Context.MODE_PRIVATE);
+        if (sharedpreferences.contains(EConstant.MY_PREFERENCES_USER_ID) && sharedpreferences.getInt(EConstant.MY_PREFERENCES_USER_ID, -1) != -1) {
+            task.execute(EConstant.URL + "GetAllServicesByUserAssignedId?userAssignedId=" + sharedpreferences.getInt(EConstant.MY_PREFERENCES_USER_ID, -1));
             Gson gson = new Gson();
             try {
                 String json = task.get();
@@ -79,18 +66,15 @@ public class OpenServiceFragment extends Fragment {
             } catch (ExecutionException e) {
                 e.printStackTrace();
             }
-            // Click event for single list row
             lstOpenService.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    loadFragmentObj.initializeFragment(new OpenServiceDetailFragment(), id);
+                    fragmentDetail = new OpenServiceDetailFragment();
+                    loadFragmentObj.initializeFragment(fragmentDetail, id);
                 }
             });
-
             loadFragmentObj = new LoadFragment(getFragmentManager());
         }
         return view;
     }
-
-
 }

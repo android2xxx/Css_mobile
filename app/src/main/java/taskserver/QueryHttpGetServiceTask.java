@@ -3,6 +3,7 @@ package taskserver;
 /**
  * Created by HieuHT on 04/01/2015.
  */
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 
@@ -17,8 +18,10 @@ import function.Function;
 
 public class QueryHttpGetServiceTask extends AsyncTask<String, Integer, String> {
     private Context mContext;
+    ProgressDialog asyncDialog;
     public QueryHttpGetServiceTask(Context context) {
         mContext = context;
+        asyncDialog = new ProgressDialog(mContext);
     }
 
     @Override
@@ -57,12 +60,16 @@ public class QueryHttpGetServiceTask extends AsyncTask<String, Integer, String> 
 
     @Override
     protected void onPostExecute(String result) {
-
+        super.onPostExecute(result);
+        asyncDialog.dismiss();
     }
 
     @Override
     protected void onPreExecute() {
-
+        super.onPreExecute();
+        asyncDialog.setMessage("Loading...");
+        //show dialog
+        asyncDialog.show();
     }
 
     @Override
