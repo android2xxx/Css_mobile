@@ -117,6 +117,9 @@ public class OpenServiceDetailFragment extends Fragment {
         final String MyPREFERENCES = "AtmLocationPrefs";
         final SharedPreferences sharedpreferences = this.getActivity().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         ImageButton btCheckIn = (ImageButton) view.findViewById(R.id.btCheckIn);
+        ImageButton btTakePhoto = (ImageButton) view.findViewById(R.id.btTakePhoto);
+        ImageButton btPhotoGallery = (ImageButton) view.findViewById(R.id.btPhotoGallery);
+        ImageButton btCloseService = (ImageButton) view.findViewById(R.id.btCloseService);
         btCheckIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -139,6 +142,8 @@ public class OpenServiceDetailFragment extends Fragment {
                     Toast.makeText(v.getContext(), "Upload file successfully", Toast.LENGTH_SHORT);
             }
         });
+
+
         return view;
     }
 
