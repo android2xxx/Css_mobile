@@ -12,6 +12,9 @@
             android:text="@string/lb_atmid"
             android:layout_width="1dip"
             android:layout_weight="1"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="2.5dp"
+            android:layout_marginTop="5dp"
             android:textStyle="bold"
             android:layout_height="wrap_content" />
 
@@ -19,12 +22,18 @@
             android:id="@+id/tvATMID"
             android:layout_width="1dip"
             android:layout_weight="1"
+            android:layout_marginLeft="2.5dp"
+            android:layout_marginRight="2.5dp"
+            android:layout_marginTop="5dp"
             android:layout_height="wrap_content" />
 
         <TextView
             android:text="@string/lb_bank"
             android:layout_width="1dip"
             android:layout_weight="1"
+            android:layout_marginLeft="2.5dp"
+            android:layout_marginRight="2.5dp"
+            android:layout_marginTop="5dp"
             android:textStyle="bold"
             android:layout_height="wrap_content" />
 
@@ -32,6 +41,9 @@
             android:id="@+id/tvBank"
             android:layout_width="1dip"
             android:layout_weight="1"
+            android:layout_marginLeft="2.5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
             android:layout_height="wrap_content" />
     </LinearLayout>
 
@@ -43,6 +55,9 @@
             android:text="@string/lb_location"
             android:layout_width="1dip"
             android:layout_weight="1"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="2.5dp"
+            android:layout_marginTop="5dp"
             android:textStyle="bold"
             android:layout_height="wrap_content" />
 
@@ -50,6 +65,9 @@
             android:id="@+id/tvLocation"
             android:layout_width="1dip"
             android:layout_weight="3"
+            android:layout_marginLeft="2.5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
             android:layout_height="wrap_content" />
     </LinearLayout>
 
@@ -63,12 +81,18 @@
             android:textStyle="bold"
             android:layout_width="1dip"
             android:layout_weight="1"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="2.5dp"
+            android:layout_marginTop="5dp"
             android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/tvIssue"
             android:layout_width="1dip"
             android:layout_weight="3"
+            android:layout_marginLeft="2.5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
             android:layout_height="wrap_content" />
     </LinearLayout>
 

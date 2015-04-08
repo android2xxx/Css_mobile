@@ -22,7 +22,7 @@ import java.util.concurrent.ExecutionException;
 import adapter.OpenServiceAdapter;
 import entity.ESummaryService;
 import function.LoadFragment;
-import taskserver.QueryToServiceTask;
+import taskserver.QueryHttpGetServiceTask;
 
 
 /**
@@ -50,7 +50,7 @@ public class OpenServiceFragment extends Fragment {
 
         ArrayList<HashMap<String, String>> openServerList = new ArrayList<HashMap<String, String>>();
 
-        QueryToServiceTask task = new QueryToServiceTask(this.getActivity());
+        QueryHttpGetServiceTask task = new QueryHttpGetServiceTask(this.getActivity());
         final String MyPREFERENCES = "AtmLocationPrefs";
         final SharedPreferences sharedpreferences = this.getActivity().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         if (sharedpreferences.contains("userId") && sharedpreferences.getInt("userId", 0) != 0) {

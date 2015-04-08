@@ -15,9 +15,9 @@ import java.io.IOException;
 import function.Function;
 
 
-public class QueryToServiceTask extends AsyncTask<String, Integer, String> {
+public class QueryHttpGetServiceTask extends AsyncTask<String, Integer, String> {
     private Context mContext;
-    public QueryToServiceTask(Context context) {
+    public QueryHttpGetServiceTask(Context context) {
         mContext = context;
     }
 

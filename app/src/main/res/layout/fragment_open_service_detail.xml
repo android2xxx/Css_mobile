@@ -1,241 +1,390 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.microtecweb.css_mobile.OpenServiceDetailFragment">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content">
 
-    <LinearLayout
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-        <!--  ListRow Left sied Thumbnail image -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:text="@string/lb_atmid"
-                android:layout_width="1dip"
-                android:layout_weight="1"
-                android:textStyle="bold"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:id="@+id/tvATMID"
-                android:layout_width="1dip"
-                android:layout_weight="1"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:text="@string/lb_serial"
-                android:layout_width="1dip"
-                android:layout_weight="1"
-                android:textStyle="bold"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:id="@+id/tvSerial"
-                android:layout_width="1dip"
-                android:layout_weight="1"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
+        tools:context="com.microtecweb.css_mobile.OpenServiceDetailFragment">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <!--  ListRow Left sied Thumbnail image -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-            <TextView
-                android:text="@string/lb_bank"
-                android:layout_width="1dip"
-                android:layout_weight="1"
-                android:textStyle="bold"
-                android:layout_height="wrap_content" />
+                <TextView
+                    android:text="@string/lb_atmid"
+                    android:layout_width="1dip"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="2.5dp"
+                    android:layout_marginTop="5dp"
+                    android:textStyle="bold"
+                    android:layout_height="wrap_content" />
 
-            <TextView
-                android:id="@+id/tvBank"
-                android:layout_width="1dip"
-                android:layout_weight="1"
-                android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/tvATMID"
+                    android:layout_width="1dip"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="2.5dp"
+                    android:layout_marginRight="2.5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_height="wrap_content" />
 
-            <TextView
-                android:text="@string/lb_branch"
-                android:layout_width="1dip"
-                android:layout_weight="1"
-                android:textStyle="bold"
-                android:layout_height="wrap_content" />
+                <TextView
+                    android:text="@string/lb_serial"
+                    android:layout_width="1dip"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="2.5dp"
+                    android:layout_marginRight="2.5dp"
+                    android:layout_marginTop="5dp"
+                    android:textStyle="bold"
+                    android:layout_height="wrap_content" />
 
-            <TextView
-                android:id="@+id/tvBranch"
-                android:layout_width="1dip"
-                android:layout_weight="1"
-                android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/tvSerial"
+                    android:layout_width="1dip"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="2.5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:text="@string/lb_bank"
+                    android:layout_width="1dip"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="2.5dp"
+                    android:layout_marginTop="5dp"
+                    android:textStyle="bold"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/tvBank"
+                    android:layout_width="1dip"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="2.5dp"
+                    android:layout_marginRight="2.5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:text="@string/lb_branch"
+                    android:layout_width="1dip"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="2.5dp"
+                    android:layout_marginRight="2.5dp"
+                    android:layout_marginTop="5dp"
+                    android:textStyle="bold"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/tvBranch"
+                    android:layout_width="1dip"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="2.5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:text="@string/lb_serviceid"
+                    android:layout_width="1dip"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="2.5dp"
+                    android:layout_marginTop="5dp"
+                    android:textStyle="bold"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/tvServiceId"
+                    android:layout_width="1dip"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="2.5dp"
+                    android:layout_marginRight="2.5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:text="@string/lb_contract"
+                    android:layout_width="1dip"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="2.5dp"
+                    android:layout_marginRight="2.5dp"
+                    android:layout_marginTop="5dp"
+                    android:textStyle="bold"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/tvContract"
+                    android:layout_width="1dip"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="2.5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:text="@string/lb_location"
+                    android:layout_width="1dip"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="2.5dp"
+                    android:layout_marginTop="5dp"
+                    android:textStyle="bold"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/tvLocation"
+                    android:layout_width="1dip"
+                    android:layout_weight="3"
+                    android:layout_marginLeft="2.5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:text="@string/lb_starttime"
+                    android:layout_width="1dip"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="2.5dp"
+                    android:layout_marginTop="5dp"
+                    android:textStyle="bold"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/tvStartTime"
+                    android:layout_width="1dip"
+                    android:layout_weight="2"
+                    android:layout_marginLeft="2.5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_height="wrap_content" />
+
+
+                <ImageButton
+                    android:id="@+id/btCheckIn"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="2.5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="1dip"
+                    android:layout_weight="1"
+                    android:src="@drawable/checkin"
+                    android:layout_height="wrap_content"
+                    android:labelFor="@string/lb_checkin" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:text="@string/lb_issue"
+                    android:textStyle="bold"
+                    android:layout_width="1dip"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="2.5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_height="wrap_content" />
+
+                <EditText
+                    android:id="@+id/txtIssue"
+                    android:layout_width="1dip"
+                    android:layout_weight="3"
+                    android:layout_marginLeft="2.5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:text="@string/lb_solution"
+                    android:textStyle="bold"
+                    android:layout_width="1dip"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="2.5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_height="wrap_content" />
+
+                <EditText
+                    android:id="@+id/txtSolution"
+                    android:layout_width="1dip"
+                    android:layout_weight="3"
+                    android:layout_marginLeft="2.5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:text="@string/lb_partname"
+                    android:layout_width="1dip"
+                    android:layout_weight="2"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="2.5dp"
+                    android:layout_marginTop="5dp"
+                    android:textStyle="bold"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:text="@string/lb_quantity"
+                    android:layout_width="1dip"
+                    android:layout_weight="2"
+                    android:layout_marginLeft="2.5dp"
+                    android:layout_marginRight="2.5dp"
+                    android:layout_marginTop="5dp"
+                    android:textStyle="bold"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:text="@string/lb_store"
+                    android:layout_width="1dip"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="2.5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:textStyle="bold"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ListView
+                    android:id="@+id/lstServicePart"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:divider="#b5b5b5"
+                    android:dividerHeight="1dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ImageButton
+                    android:id="@+id/btTakePhoto"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="2.5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="1dip"
+                    android:layout_weight="1"
+                    android:src="@drawable/takephoto"
+                    android:layout_height="wrap_content"
+                    android:labelFor="@string/lb_take_photo" />
+                <ImageButton
+                    android:id="@+id/btPhotoGallery"
+                    android:layout_marginLeft="2.5dp"
+                    android:layout_marginRight="2.5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="1dip"
+                    android:layout_weight="1"
+                    android:src="@drawable/gallery"
+                    android:layout_height="wrap_content"
+                    android:labelFor="@string/lb_photo_gallery"/>
+
+                <ImageButton
+                    android:id="@+id/btCloseService"
+                    android:layout_marginLeft="2.5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="1dip"
+                    android:layout_weight="1"
+                    android:src="@drawable/complete"
+                    android:layout_height="wrap_content"
+                    android:labelFor="@string/lb_closeservice"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/imgCap"
+                    android:layout_width="50dip"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="2.5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="2"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="@string/desImgCap"
+                    android:src="@android:drawable/ic_menu_gallery"
+                    android:visibility="invisible"></ImageView>
+
+                <ImageView
+                    android:id="@+id/imgCap2"
+                    android:layout_width="50dip"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="2.5dp"
+                    android:layout_marginRight="2.5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="2"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="@string/desImgCap"
+                    android:src="@android:drawable/ic_menu_gallery"
+                    android:visibility="invisible"></ImageView>
+
+                <ImageView
+                    android:id="@+id/imgCap3"
+                    android:layout_width="50dip"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="2.5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="2"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="@string/desImgCap"
+                    android:src="@android:drawable/ic_menu_gallery"
+                    android:visibility="invisible"></ImageView>
+            </LinearLayout>
+
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+    </FrameLayout>
 
-            <TextView
-                android:text="@string/lb_serviceid"
-                android:layout_width="1dip"
-                android:layout_weight="1"
-                android:textStyle="bold"
-                android:layout_height="wrap_content" />
 
-            <TextView
-                android:id="@+id/tvServiceId"
-                android:layout_width="1dip"
-                android:layout_weight="1"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:text="@string/lb_contract"
-                android:layout_width="1dip"
-                android:layout_weight="1"
-                android:textStyle="bold"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:id="@+id/tvContract"
-                android:layout_width="1dip"
-                android:layout_weight="1"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:text="@string/lb_location"
-                android:layout_width="1dip"
-                android:layout_weight="1"
-                android:textStyle="bold"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:id="@+id/tvLocation"
-                android:layout_width="1dip"
-                android:layout_weight="3"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:text="@string/lb_starttime"
-                android:layout_width="1dip"
-                android:layout_weight="1"
-                android:textStyle="bold"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:id="@+id/tvStartTime"
-                android:layout_width="1dip"
-                android:layout_weight="3"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:text="@string/lb_issue"
-                android:textStyle="bold"
-                android:layout_width="1dip"
-                android:layout_weight="1"
-                android:layout_height="wrap_content" />
-
-            <EditText
-                android:id="@+id/txtIssue"
-                android:layout_width="1dip"
-                android:layout_weight="3"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:text="@string/lb_solution"
-                android:textStyle="bold"
-                android:layout_width="1dip"
-                android:layout_weight="1"
-                android:layout_height="wrap_content" />
-
-            <EditText
-                android:id="@+id/txtSolution"
-                android:layout_width="1dip"
-                android:layout_weight="3"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:text="@string/lb_partname"
-                android:layout_width="1dip"
-                android:layout_weight="1"
-                android:textStyle="bold"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:text="@string/lb_quantity"
-                android:layout_width="1dip"
-                android:layout_weight="1"
-                android:textStyle="bold"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:text="@string/lb_store"
-                android:layout_width="1dip"
-                android:layout_weight="1"
-                android:textStyle="bold"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ListView
-                android:id="@+id/lstServicePart"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:divider="#b5b5b5"
-                android:dividerHeight="1dp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <Button
-                android:id="@+id/btCheckIn"
-                android:text="@string/lb_checkin"
-                android:textStyle="bold"
-                android:layout_width="1dip"
-                android:layout_weight="2"
-                android:layout_height="wrap_content" />
-
-            <Button
-                android:id="@+id/btCloseService"
-                android:text="@string/lb_closeservice"
-                android:textStyle="bold"
-                android:layout_width="1dip"
-                android:layout_weight="2"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-    </LinearLayout>
-
-</FrameLayout>
+</ScrollView>

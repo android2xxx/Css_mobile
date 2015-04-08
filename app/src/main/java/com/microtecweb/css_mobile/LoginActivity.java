@@ -12,7 +12,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 import java.util.concurrent.ExecutionException;
 import function.Function;
-import taskserver.QueryToServiceTask;
+import taskserver.QueryHttpGetServiceTask;
 
 
 public class LoginActivity extends ActionBarActivity {
@@ -41,7 +41,7 @@ public class LoginActivity extends ActionBarActivity {
                     if (!Function.isOnline(LoginActivity.this)) {
                         result = "Network is not available";
                     } else {
-                        QueryToServiceTask task = new QueryToServiceTask(LoginActivity.this);
+                        QueryHttpGetServiceTask task = new QueryHttpGetServiceTask(LoginActivity.this);
                         task.execute(URL + "UserName=" + txtAccount.getText().toString() + "&Password=" + txtPassword.getText().toString());
                         try {
                             result = task.get();

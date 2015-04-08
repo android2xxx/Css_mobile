@@ -1,26 +1,54 @@
 package com.microtecweb.css_mobile;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.ExecutionException;;
 import adapter.OpenServicePartAdapter;
 import entity.EDetailService;
 import entity.EPart;
 import function.LoadFragment;
-import taskserver.QueryToServiceTask;
+import taskserver.QueryHttpGetServiceTask;
+import taskserver.QueryHttpPostUploadFileServiceTask;
 
 public class OpenServiceDetailFragment extends Fragment {
-    private static final String URL = "http://192.168.66.87:5559/Home/GetServiceById?serviceId=";
+    private static final String URL = "http://192.168.66.87:5559/Home/";
 
 
     public OpenServiceDetailFragment() {
@@ -46,8 +74,8 @@ public class OpenServiceDetailFragment extends Fragment {
         EditText txtIssue = (EditText) view.findViewById(R.id.txtIssue);
         EditText txtSolution = (EditText) view.findViewById(R.id.txtSolution);
 
-        QueryToServiceTask task = new QueryToServiceTask(this.getActivity());
-        task.execute(URL + serviceId);
+        QueryHttpGetServiceTask task = new QueryHttpGetServiceTask(this.getActivity());
+        task.execute(URL + "GetServiceById?serviceId=" + serviceId);
         GsonBuilder builder = new GsonBuilder();
         builder.setDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         Gson gson = builder.create();
@@ -85,7 +113,34 @@ public class OpenServiceDetailFragment extends Fragment {
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
+
+        final String MyPREFERENCES = "AtmLocationPrefs";
+        final SharedPreferences sharedpreferences = this.getActivity().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        ImageButton btCheckIn = (ImageButton) view.findViewById(R.id.btCheckIn);
+        btCheckIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_action_camera);
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                final byte [] byte_arr = stream.toByteArray();
+                QueryHttpPostUploadFileServiceTask task = new QueryHttpPostUploadFileServiceTask(v.getContext());
+                task.execute(URL + "UploadImage",  Base64.encodeToString(byte_arr, Base64.DEFAULT), "filename.abc", sharedpreferences.getString("userName", "") );
+                String content = "";
+                try {
+                    content = task.get();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                }
+                if(content.equals(""))
+                    Toast.makeText(v.getContext(), "Upload file successfully", Toast.LENGTH_SHORT);
+            }
+        });
         return view;
     }
+
 
 }
