@@ -99,11 +99,7 @@ public class MainMenu extends ActionBarActivity {
         Bundle args = new Bundle();
         switch (possition) {
             case 0:
-                fragment = new FragmentOne();
-                args.putString(FragmentOne.ITEM_NAME, dataList.get(possition)
-                        .getItemName());
-                args.putInt(FragmentOne.IMAGE_RESOURCE_ID, dataList.get(possition)
-                        .getImgResID());
+                fragment = new RequestService();
                 break;
             case 1:
                 fragment = new OpenServiceFragment();
