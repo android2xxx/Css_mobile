@@ -4,11 +4,16 @@ package taskserver;
  * Created by HieuHT on 04/01/2015.
  */
 
+import android.app.Activity;
+import android.app.DialogFragment;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Base64;
 import android.util.Log;
+
 import com.google.gson.Gson;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -19,16 +24,19 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import entity.EConstant;
 import entity.EFileUploadResponse;
 
 public class QueryHttpPostUploadFileServiceTask extends AsyncTask<String, Integer, String> {
     private Context mContext;
 
-    public QueryHttpPostUploadFileServiceTask(Context context) {
+    public QueryHttpPostUploadFileServiceTask(Context context){
         mContext = context;
     }
 
@@ -38,7 +46,7 @@ public class QueryHttpPostUploadFileServiceTask extends AsyncTask<String, Intege
         StringBuilder url = new StringBuilder(params[0]);
         byte[] byte_arr = Base64.decode(params[1], Base64.DEFAULT);
         int Offset = 0; // starting offset.
-        int ChunkSize = 65536; // 64 * 1024 kb - dung lượng file upload mỗi lần
+        int ChunkSize = EConstant.CHUNK_SIZE;
         //define the buffer array
         byte[] Buffer = new byte[ChunkSize];
         //opening the file for read.
@@ -76,18 +84,14 @@ public class QueryHttpPostUploadFileServiceTask extends AsyncTask<String, Intege
                     EFileUploadResponse objFileUploadResponse = gson.fromJson(EntityUtils.toString(entity), EFileUploadResponse.class);
                     if (objFileUploadResponse.getStatus())
                         fileRename = objFileUploadResponse.getFileReName();
-                    else
-                    {
+                    else {
                         content = objFileUploadResponse.getMessage();
                         break;
                     }
-
                 } else {
                     content = "Server is not available";
                     break;
                 }
-                // write response to log
-                Log.d("Http Post Response:", response.toString());
             } catch (Exception e) {
                 content = e.getMessage();
                 break;
@@ -99,12 +103,12 @@ public class QueryHttpPostUploadFileServiceTask extends AsyncTask<String, Intege
 
     @Override
     protected void onPostExecute(String result) {
-
+        super.onPostExecute(result);
     }
 
     @Override
     protected void onPreExecute() {
-
+        super.onPreExecute();
     }
 
     @Override
