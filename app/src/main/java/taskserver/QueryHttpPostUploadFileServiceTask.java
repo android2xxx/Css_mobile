@@ -32,17 +32,17 @@ import java.util.List;
 
 import entity.EConstant;
 import entity.EFileUploadResponse;
+import entity.EResponse;
 
-public class QueryHttpPostUploadFileServiceTask extends AsyncTask<String, Integer, String> {
-    private Context mContext;
+public class QueryHttpPostUploadFileServiceTask extends AsyncTask<String, Integer, EResponse> {
 
-    public QueryHttpPostUploadFileServiceTask(Context context){
-        mContext = context;
+    public QueryHttpPostUploadFileServiceTask(){
+
     }
 
     @Override
-    protected String doInBackground(String... params) {
-        String content = "";
+    protected EResponse doInBackground(String... params) {
+        EResponse objResponse = new EResponse();
         StringBuilder url = new StringBuilder(params[0]);
         byte[] byte_arr = Base64.decode(params[1], Base64.DEFAULT);
         int Offset = 0; // starting offset.
@@ -82,27 +82,28 @@ public class QueryHttpPostUploadFileServiceTask extends AsyncTask<String, Intege
                 if (status == 200) {
                     HttpEntity entity = response.getEntity();
                     EFileUploadResponse objFileUploadResponse = gson.fromJson(EntityUtils.toString(entity), EFileUploadResponse.class);
+                    objResponse.setStatus(objFileUploadResponse.getStatus());
                     if (objFileUploadResponse.getStatus())
                         fileRename = objFileUploadResponse.getFileReName();
                     else {
-                        content = objFileUploadResponse.getMessage();
+                        objResponse.setMessage(objFileUploadResponse.getMessage());
                         break;
                     }
                 } else {
-                    content = "Server is not available";
+                    objResponse.setMessage("Server is not available");
                     break;
                 }
             } catch (Exception e) {
-                content = e.getMessage();
+                objResponse.setMessage(e.getMessage());
                 break;
             }
             Offset += BytesRead;
         }
-        return content;
+        return objResponse;
     }
 
     @Override
-    protected void onPostExecute(String result) {
+    protected void onPostExecute(EResponse result) {
         super.onPostExecute(result);
     }
 

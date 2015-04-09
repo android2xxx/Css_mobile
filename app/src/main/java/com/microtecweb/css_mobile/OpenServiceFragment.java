@@ -70,7 +70,7 @@ public class OpenServiceFragment extends Fragment {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     fragmentDetail = new OpenServiceDetailFragment();
-                    loadFragmentObj.initializeFragment(fragmentDetail, id);
+                    loadFragmentObj.initializeFragment(fragmentDetail, (int)id);
                 }
             });
             loadFragmentObj = new LoadFragment(getFragmentManager());

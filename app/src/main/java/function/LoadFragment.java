@@ -19,12 +19,12 @@ public class LoadFragment {
         this.fragmentManager = fragmentManager;
     }
 
-    public void initializeFragment(Fragment fragment, long id) {
+    public void initializeFragment(Fragment fragment, int id) {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
         if(id != 0) {
             Bundle arguments = new Bundle();
-            arguments.putLong(PACKAGE_ID, id);
+            arguments.putInt(PACKAGE_ID, id);
             fragment.setArguments(arguments);
         }
         fragmentTransaction.replace(R.id.content_frame, fragment);

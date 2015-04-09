@@ -5,6 +5,7 @@ package entity;
  */
 public class EConstant {
     public static final String URL = "http://192.168.66.87:5559/Home/";
+    //public static final String URL = "http://192.168.68.119/CSS_MVC/Home/";
     public static final String FOLDER_NAME = "CSS_MOBILE";
 
     public static final String MY_PREFERENCES = "CSS_MOBILE_PREFERENCES";

@@ -1,6 +1,5 @@
 package com.microtecweb.css_mobile;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -26,8 +25,14 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+
 import java.io.File;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -36,9 +41,11 @@ import adapter.OpenServicePartAdapter;
 import entity.EConstant;
 import entity.EDetailService;
 import entity.EPart;
+import entity.EResponse;
 import function.Function;
 import function.LoadFragment;
 import taskserver.QueryHttpGetServiceTask;
+import taskserver.QueryHttpPostServiceTask;
 import taskserver.QueryHttpPostUploadFileServiceTask;
 
 
@@ -60,7 +67,7 @@ public class OpenServiceDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         Bundle extras = getArguments();
-        long serviceId = extras.getLong(LoadFragment.PACKAGE_ID);
+        final int serviceId = extras.getInt(LoadFragment.PACKAGE_ID);
         View view = inflater.inflate(R.layout.fragment_open_service_detail, container, false);
         TextView tvATMID = (TextView) view.findViewById(R.id.tvATMID);
         TextView tvSerial = (TextView) view.findViewById(R.id.tvSerial);
@@ -70,14 +77,14 @@ public class OpenServiceDetailFragment extends Fragment {
         TextView tvContract = (TextView) view.findViewById(R.id.tvContract);
         TextView tvLocation = (TextView) view.findViewById(R.id.tvLocation);
         TextView tvStartTime = (TextView) view.findViewById(R.id.tvStartTime);
-
-        EditText txtIssue = (EditText) view.findViewById(R.id.txtIssue);
-        EditText txtSolution = (EditText) view.findViewById(R.id.txtSolution);
+        final EditText txtIssue = (EditText) view.findViewById(R.id.txtIssue);
+        final EditText txtSolution = (EditText) view.findViewById(R.id.txtSolution);
 
         QueryHttpGetServiceTask task = new QueryHttpGetServiceTask(this.getActivity());
         task.execute(EConstant.URL + "GetServiceById?serviceId=" + serviceId);
         GsonBuilder builder = new GsonBuilder();
         builder.setDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        final DateFormat df = new SimpleDateFormat("dd-MMM-yyyy HH:mm");
         Gson gson = builder.create();
         try {
             String json = task.get();
@@ -89,7 +96,8 @@ public class OpenServiceDetailFragment extends Fragment {
             tvServiceId.setText(String.valueOf(serviceId));
             tvContract.setText(objDetailService.getContract());
             tvLocation.setText(objDetailService.getLocation());
-            tvStartTime.setText(String.valueOf(objDetailService.getStartTime()));
+
+            tvStartTime.setText(df.format(objDetailService.getStartTime()));
             txtIssue.setText(objDetailService.getIssue());
             txtSolution.setText(objDetailService.getSolution());
 
@@ -122,16 +130,35 @@ public class OpenServiceDetailFragment extends Fragment {
         _imageView = (ImageView) view.findViewById(R.id.imgCap);
         _imageView2 = (ImageView) view.findViewById(R.id.imgCap2);
         _imageView3 = (ImageView) view.findViewById(R.id.imgCap3);
+
+        btCheckIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                QueryHttpPostServiceTask taskPost = new QueryHttpPostServiceTask(getActivity());
+                List<NameValuePair> nameValuePair = new ArrayList<NameValuePair>(2);
+                nameValuePair.add(new BasicNameValuePair("URL", EConstant.URL + "CheckInService"));
+                nameValuePair.add(new BasicNameValuePair("serviceId", String.valueOf(serviceId)));
+                nameValuePair.add(new BasicNameValuePair("dateTimeAssign", df.format(Calendar.getInstance().getTime())));
+                nameValuePair.add(new BasicNameValuePair("username", sharedpreferences.getString(EConstant.MY_PREFERENCES_USER_NAME, "")));
+                taskPost.execute(nameValuePair);
+            }
+        });
+
         btCloseService.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Integer index = 0;
-
-
-                //asyncDialog.setMessage("Loading...");
-                //asyncDialog.show();
-                openprogresdialog();
-/*
+                boolean flagImage = false;
+                for (String pathFileImage : lstPathFileImage) {
+                    if (!pathFileImage.isEmpty() && !pathFileImage.equals("")) {
+                        flagImage = true;
+                        break;
+                    }
+                }
+                if (flagImage)
+                    showProgressDialog(serviceId, txtIssue.getText().toString(), txtSolution.getText().toString());
+                else
+                    Toast.makeText(getActivity(), "Please take photo or chose photo from gallery !", Toast.LENGTH_SHORT).show();
+                /*
                 for (String pathFileImage : lstPathFileImage) {
                     if (!pathFileImage.isEmpty() && !pathFileImage.equals("")) {
                         File fileUpload = new File(pathFileImage);
@@ -151,8 +178,7 @@ public class OpenServiceDetailFragment extends Fragment {
                         }
                     }
                 }*/
-                if (index > 0)
-                    Toast.makeText(getActivity(), "Upload " + index + (index > 1 ? " files " : "file ") + "successfully", Toast.LENGTH_SHORT).show();
+
                 /*
                 Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_action_camera);
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
@@ -192,17 +218,20 @@ public class OpenServiceDetailFragment extends Fragment {
             lstPathFileImage.add("");
         return view;
     }
+
     //ProgressDialog asyncDialog = new ProgressDialog(getActivity());
-    private void openprogresdialog() {
+    //String contentUpload = "zzzz";
+
+    private void showProgressDialog(final int serviceId, final String issue, final String solution) {
         // TODO Auto-generated method stub
-        final ProgressDialog progDailog = ProgressDialog.show(
-                getActivity(), "Uploading", "Please wait...", true);
-        //asyncDialog.show();
+        final ProgressDialog progressDialog = ProgressDialog.show(getActivity(), "Uploading", "Please wait...", true);
+
         new Thread() {
             public void run() {
                 try {
+                    Integer index = 0;
                     final SharedPreferences sharedpreferences = getActivity().getSharedPreferences(EConstant.MY_PREFERENCES, Context.MODE_PRIVATE);
-
+                    EResponse objEResponse = new EResponse();
                     for (String pathFileImage : lstPathFileImage) {
                         if (!pathFileImage.isEmpty() && !pathFileImage.equals("")) {
                             File fileUpload = new File(pathFileImage);
@@ -211,22 +240,48 @@ public class OpenServiceDetailFragment extends Fragment {
                                     String[] arrayPathFiles = pathFileImage.split("/");
                                     String fileName = arrayPathFiles[arrayPathFiles.length - 1];
                                     byte[] byte_arr = Function.getBytesFromFile(fileUpload);
-                                    QueryHttpPostUploadFileServiceTask task = new QueryHttpPostUploadFileServiceTask(getActivity());
+                                    QueryHttpPostUploadFileServiceTask task = new QueryHttpPostUploadFileServiceTask();
                                     task.execute(EConstant.URL + "UploadImage", Base64.encodeToString(byte_arr, Base64.DEFAULT), fileName, sharedpreferences.getString(EConstant.MY_PREFERENCES_USER_NAME, ""));
-                                    String content = task.get();
-
-
+                                    objEResponse = task.get();
+                                    index++;
                                 } catch (Exception e) {
 
                                 }
                             }
                         }
                     }
+                    if (objEResponse.getStatus()) {
+                        QueryHttpPostServiceTask taskPost = new QueryHttpPostServiceTask(getActivity());
+                        List<NameValuePair> nameValuePair = new ArrayList<NameValuePair>(2);
+                        nameValuePair.add(new BasicNameValuePair("URL", EConstant.URL + "CloseService"));
+                        nameValuePair.add(new BasicNameValuePair("serviceId", String.valueOf(serviceId)));
+                        nameValuePair.add(new BasicNameValuePair("issue", issue));
+                        nameValuePair.add(new BasicNameValuePair("solution", solution));
+                        nameValuePair.add(new BasicNameValuePair("username", sharedpreferences.getString(EConstant.MY_PREFERENCES_USER_NAME, "")));
+                        taskPost.execute(nameValuePair);
+                        objEResponse = taskPost.get();
+                        /*
+                        if (objEResponse.getStatus()) {
+                            if (index > 0) {
+                                contentUpload = "Upload " + index + (index > 1 ? " files " : "file ") + "successfully";
+                            }
+                            //Toast.makeText(getActivity(), "Upload " + index + (index > 1 ? " files " : "file ") + "successfully", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(getActivity(), "Upload file succesully !", Toast.LENGTH_SHORT).show();
+                        } else {
+                            contentUpload = "Error: " + objEResponse.getMessage();
+                            //Toast.makeText(getActivity(), "Error: " + objEResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                        }*/
+                    }
                 } catch (Exception e) {
+                    //contentUpload = "Error: " + e.getMessage();
+                    //Toast.makeText(getActivity(), "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
-                progDailog.dismiss();
+                progressDialog.dismiss();
+                //Toast.makeText(getActivity(), "Error: test", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity(), contentUpload, Toast.LENGTH_SHORT).show();
             }
         }.start();
+        //Toast.makeText(getActivity(), contentUpload, Toast.LENGTH_SHORT).show();
     }
 
     private void TakePhoto() {
