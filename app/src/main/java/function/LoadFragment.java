@@ -19,7 +19,7 @@ public class LoadFragment {
         this.fragmentManager = fragmentManager;
     }
 
-    public void initializeFragment(Fragment fragment, int id) {
+    public void initializeFragment(Fragment oldFragment, Fragment fragment, String fragmentName, int id) {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
         if(id != 0) {
@@ -27,8 +27,9 @@ public class LoadFragment {
             arguments.putInt(PACKAGE_ID, id);
             fragment.setArguments(arguments);
         }
-        fragmentTransaction.replace(R.id.content_frame, fragment);
-        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.hide(oldFragment);
+        fragmentTransaction.add (R.id.content_frame, fragment, fragmentName);
+        //fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
 }

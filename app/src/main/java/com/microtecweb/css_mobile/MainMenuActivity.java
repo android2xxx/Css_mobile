@@ -10,6 +10,7 @@ import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,10 +20,11 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
+import entity.EDrawerItem;
 import entity.EConstant;
 
 
-public class MainMenu extends ActionBarActivity {
+public class MainMenuActivity extends ActionBarActivity {
 
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
@@ -32,7 +34,7 @@ public class MainMenu extends ActionBarActivity {
     private CharSequence mTitle;
     CustomDrawerAdapter adapter;
 
-    List<DrawerItem> dataList;
+    List<EDrawerItem> dataList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +45,7 @@ public class MainMenu extends ActionBarActivity {
         setTheme(android.R.style.Theme_Holo_Light);
         setContentView(R.layout.activity_main_menu);
 
-        dataList = new ArrayList<DrawerItem>();
+        dataList = new ArrayList<EDrawerItem>();
         mTitle = mDrawerTitle = getTitle();
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
@@ -51,14 +53,14 @@ public class MainMenu extends ActionBarActivity {
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow,
                 GravityCompat.START);
 
-        dataList.add(new DrawerItem("Service Entry", R.drawable.ic_open_service));
-        dataList.add(new DrawerItem("My Open Service", R.drawable.ic_action_cloud));
-        dataList.add(new DrawerItem("Completed Service", R.drawable.ic_close_service));
-        dataList.add(new DrawerItem("Todo List", R.drawable.ic_action_search));
-        dataList.add(new DrawerItem("Service History", R.drawable.ic_action_email));
-        dataList.add(new DrawerItem("Talk to Leader", R.drawable.ic_talk_leader));
-        dataList.add(new DrawerItem("About", R.drawable.ic_action_about));
-        dataList.add(new DrawerItem("Help", R.drawable.ic_action_help));
+        dataList.add(new EDrawerItem("Service Entry", R.drawable.ic_open_service));
+        dataList.add(new EDrawerItem("My Open Service", R.drawable.ic_action_cloud));
+        dataList.add(new EDrawerItem("Completed Service", R.drawable.ic_close_service));
+        dataList.add(new EDrawerItem("Todo List", R.drawable.ic_action_search));
+        dataList.add(new EDrawerItem("Service History", R.drawable.ic_action_email));
+        dataList.add(new EDrawerItem("Talk to Leader", R.drawable.ic_talk_leader));
+        dataList.add(new EDrawerItem("About", R.drawable.ic_action_about));
+        dataList.add(new EDrawerItem("Help", R.drawable.ic_action_help));
 
         adapter = new CustomDrawerAdapter(this, R.layout.custom_drawer_item,
                 dataList);
@@ -67,7 +69,7 @@ public class MainMenu extends ActionBarActivity {
 
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
-        if(getSupportActionBar() != null) {
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setHomeButtonEnabled(true);
         }
@@ -79,6 +81,7 @@ public class MainMenu extends ActionBarActivity {
                 invalidateOptionsMenu(); // creates call to
                 // onPrepareOptionsMenu()
             }
+
             public void onDrawerOpened(View drawerView) {
                 getSupportActionBar().setTitle(mDrawerTitle);
                 invalidateOptionsMenu(); // creates call to
@@ -94,6 +97,7 @@ public class MainMenu extends ActionBarActivity {
     }
 
     Fragment fragment = null;
+
     public void SelectItem(int possition) {
 
         Bundle args = new Bundle();
@@ -105,83 +109,7 @@ public class MainMenu extends ActionBarActivity {
                 fragment = new OpenServiceFragment();
                 args.putInt("ServiceId", 0);
                 break;
-            case 2:
-                fragment = new FragmentThree();
-                args.putString(FragmentThree.ITEM_NAME, dataList.get(possition)
-                        .getItemName());
-                args.putInt(FragmentThree.IMAGE_RESOURCE_ID, dataList.get(possition)
-                        .getImgResID());
-                break;
-            case 3:
-                fragment = new FragmentOne();
-                args.putString(FragmentOne.ITEM_NAME, dataList.get(possition)
-                        .getItemName());
-                args.putInt(FragmentOne.IMAGE_RESOURCE_ID, dataList.get(possition)
-                        .getImgResID());
-                break;
-            case 4:
-                fragment = new FragmentTwo();
-                args.putString(FragmentTwo.ITEM_NAME, dataList.get(possition)
-                        .getItemName());
-                args.putInt(FragmentTwo.IMAGE_RESOURCE_ID, dataList.get(possition)
-                        .getImgResID());
-                break;
-            case 5:
-                fragment = new FragmentThree();
-                args.putString(FragmentThree.ITEM_NAME, dataList.get(possition)
-                        .getItemName());
-                args.putInt(FragmentThree.IMAGE_RESOURCE_ID, dataList.get(possition)
-                        .getImgResID());
-                break;
-            case 6:
-                fragment = new FragmentOne();
-                args.putString(FragmentOne.ITEM_NAME, dataList.get(possition)
-                        .getItemName());
-                args.putInt(FragmentOne.IMAGE_RESOURCE_ID, dataList.get(possition)
-                        .getImgResID());
-                break;
-            case 7:
-                fragment = new FragmentTwo();
-                args.putString(FragmentTwo.ITEM_NAME, dataList.get(possition)
-                        .getItemName());
-                args.putInt(FragmentTwo.IMAGE_RESOURCE_ID, dataList.get(possition)
-                        .getImgResID());
-                break;
-            case 8:
-                fragment = new FragmentThree();
-                args.putString(FragmentThree.ITEM_NAME, dataList.get(possition)
-                        .getItemName());
-                args.putInt(FragmentThree.IMAGE_RESOURCE_ID, dataList.get(possition)
-                        .getImgResID());
-                break;
-            case 9:
-                fragment = new FragmentOne();
-                args.putString(FragmentOne.ITEM_NAME, dataList.get(possition)
-                        .getItemName());
-                args.putInt(FragmentOne.IMAGE_RESOURCE_ID, dataList.get(possition)
-                        .getImgResID());
-                break;
-            case 10:
-                fragment = new FragmentTwo();
-                args.putString(FragmentTwo.ITEM_NAME, dataList.get(possition)
-                        .getItemName());
-                args.putInt(FragmentTwo.IMAGE_RESOURCE_ID, dataList.get(possition)
-                        .getImgResID());
-                break;
-            case 11:
-                fragment = new FragmentThree();
-                args.putString(FragmentThree.ITEM_NAME, dataList.get(possition)
-                        .getItemName());
-                args.putInt(FragmentThree.IMAGE_RESOURCE_ID, dataList.get(possition)
-                        .getImgResID());
-                break;
-            case 12:
-                fragment = new FragmentOne();
-                args.putString(FragmentOne.ITEM_NAME, dataList.get(possition)
-                        .getItemName());
-                args.putInt(FragmentOne.IMAGE_RESOURCE_ID, dataList.get(possition)
-                        .getImgResID());
-                break;
+
             default:
                 break;
         }
@@ -189,22 +117,51 @@ public class MainMenu extends ActionBarActivity {
         fragment.setArguments(args);
         FragmentManager frgManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = frgManager.beginTransaction();
-        fragmentTransaction.replace(R.id.content_frame, fragment);
+        boolean flag = false;
+        while (getFragmentManager().getBackStackEntryCount() > 0) {
+            Fragment fragmentServiceDetail = getFragmentManager().findFragmentByTag("FragmentServiceDetail");
+            if (fragmentServiceDetail != null) {
+                fragmentTransaction.remove(fragmentServiceDetail);
+                getFragmentManager().popBackStackImmediate();
+                //fragmentTransaction.commit();
+            }
+
+            Fragment fragmentMenu = getFragmentManager().findFragmentByTag("FragmentMenu");
+            if (fragmentMenu != null) {
+                fragmentTransaction.remove(fragmentMenu);
+                getFragmentManager().popBackStackImmediate();
+                //fragmentTransaction.commit();
+            }
+
+        }
+        fragmentTransaction.replace(R.id.content_frame, fragment, "FragmentMenu");
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
-
         mDrawerList.setItemChecked(possition, true);
         setTitle(dataList.get(possition).getItemName());
         mDrawerLayout.closeDrawer(mDrawerList);
-
     }
 
     @Override
     public void onBackPressed() {
-        if (getFragmentManager().getBackStackEntryCount() > 0) {
-            getFragmentManager().popBackStack();
-        } else {
-            super.onBackPressed();
+        if (mDrawerLayout.isDrawerVisible(Gravity.START))
+            mDrawerLayout.closeDrawer(Gravity.START);
+        else {
+            if (getFragmentManager().getBackStackEntryCount() > 0) {
+                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                Fragment fragmentServiceDetail = getFragmentManager().findFragmentByTag("FragmentServiceDetail");
+                if (fragmentServiceDetail != null)
+                    fragmentTransaction.hide(fragmentServiceDetail);
+                Fragment fragmentMenu = getFragmentManager().findFragmentByTag("FragmentMenu");
+                if (fragmentMenu != null)
+                    fragmentTransaction.show(fragmentMenu);
+                //getFragmentManager().popBackStackImmediate();
+                fragmentTransaction.commit();
+                //fragmentTransaction.hide(getFragmentManager().findFragmentById(backEntry.getId()));
+
+            } else {
+                super.onBackPressed();
+            }
         }
     }
 
@@ -248,20 +205,19 @@ public class MainMenu extends ActionBarActivity {
     }
 
 
-
-
     private class DrawerItemClickListener implements
             ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position,
                                 long id) {
-            SelectItem(position);        }
+            SelectItem(position);
+        }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == EConstant.REQUEST_CODE_PHOTO_GALLERY || requestCode == EConstant.REQUEST_CODE_TAKE_PHOTO) {
+        if (requestCode == EConstant.REQUEST_CODE_PHOTO_GALLERY || requestCode == EConstant.REQUEST_CODE_TAKE_PHOTO) {
             OpenServiceFragment a = (OpenServiceFragment) fragment;
             a.fragmentDetail.onActivityResult(requestCode, resultCode, data);
         }

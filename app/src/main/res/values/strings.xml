@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Css_mobile</string>
+    <string name="app_name">CSS Mobile</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -40,4 +40,5 @@
     <string name="lb_scan">Scan</string>
     <string name="radio_inbox">Inbox</string>
     <string name="radio_outbox">Outbox</string>
+    <string name="lb_submit">Submit</string>
 </resources>

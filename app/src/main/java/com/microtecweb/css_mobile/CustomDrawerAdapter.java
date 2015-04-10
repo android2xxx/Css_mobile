@@ -15,17 +15,19 @@ import android.widget.TextView;
 
 import java.util.List;
 
-public class CustomDrawerAdapter extends ArrayAdapter<DrawerItem> {
+import entity.EDrawerItem;
+
+public class CustomDrawerAdapter extends ArrayAdapter<EDrawerItem> {
 
     Context context;
-    List<DrawerItem> drawerItemList;
+    List<EDrawerItem> EDrawerItemList;
     int layoutResID;
 
     public CustomDrawerAdapter(Context context, int layoutResourceID,
-                               List<DrawerItem> listItems) {
+                               List<EDrawerItem> listItems) {
         super(context, layoutResourceID, listItems);
         this.context = context;
-        this.drawerItemList = listItems;
+        this.EDrawerItemList = listItems;
         this.layoutResID = layoutResourceID;
 
     }
@@ -53,7 +55,7 @@ public class CustomDrawerAdapter extends ArrayAdapter<DrawerItem> {
 
         }
 
-        DrawerItem dItem = (DrawerItem) this.drawerItemList.get(position);
+        EDrawerItem dItem = (EDrawerItem) this.EDrawerItemList.get(position);
 
         drawerHolder.icon.setImageDrawable(view.getResources().getDrawable(
                 dItem.getImgResID()));

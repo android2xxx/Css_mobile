@@ -35,7 +35,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import adapter.OpenServicePartAdapter;
 import entity.EConstant;
@@ -57,9 +56,19 @@ public class OpenServiceDetailFragment extends Fragment {
     private ImageView _imageView3;
     private ImageView _imageView;
     private List<String> lstPathFileImage = new ArrayList<>();
+    private String textName;
 
-    public OpenServiceDetailFragment() {
-        // Required empty public constructor
+    public OpenServiceDetailFragment()
+    {
+
+    }
+    public OpenServiceDetailFragment(String textName) {
+        this.textName = textName;
+    }
+
+    public String getTextName()
+    {
+        return  textName;
     }
 
     @Override
@@ -69,27 +78,28 @@ public class OpenServiceDetailFragment extends Fragment {
         Bundle extras = getArguments();
         final int serviceId = extras.getInt(LoadFragment.PACKAGE_ID);
         View view = inflater.inflate(R.layout.fragment_open_service_detail, container, false);
-        TextView tvATMID = (TextView) view.findViewById(R.id.tvATMID);
-        TextView tvSerial = (TextView) view.findViewById(R.id.tvSerial);
-        TextView tvBank = (TextView) view.findViewById(R.id.tvBank);
-        TextView tvBranch = (TextView) view.findViewById(R.id.tvBranch);
-        TextView tvServiceId = (TextView) view.findViewById(R.id.tvServiceId);
-        TextView tvContract = (TextView) view.findViewById(R.id.tvContract);
-        TextView tvLocation = (TextView) view.findViewById(R.id.tvLocation);
-        TextView tvStartTime = (TextView) view.findViewById(R.id.tvStartTime);
-        final EditText txtIssue = (EditText) view.findViewById(R.id.txtIssue);
-        final EditText txtSolution = (EditText) view.findViewById(R.id.txtSolution);
-
-        QueryHttpGetServiceTask task = new QueryHttpGetServiceTask(this.getActivity());
-        task.execute(EConstant.URL + "GetServiceById?serviceId=" + serviceId);
-        GsonBuilder builder = new GsonBuilder();
-        builder.setDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-        final DateFormat df = new SimpleDateFormat("dd-MMM-yyyy HH:mm");
-        Gson gson = builder.create();
         try {
+            TextView tvATMID = (TextView) view.findViewById(R.id.tvATMID);
+            TextView tvSerial = (TextView) view.findViewById(R.id.tvSerial);
+            TextView tvBank = (TextView) view.findViewById(R.id.tvBank);
+            TextView tvBranch = (TextView) view.findViewById(R.id.tvBranch);
+            TextView tvServiceId = (TextView) view.findViewById(R.id.tvServiceId);
+            TextView tvContract = (TextView) view.findViewById(R.id.tvContract);
+            TextView tvLocation = (TextView) view.findViewById(R.id.tvLocation);
+            TextView tvStartTime = (TextView) view.findViewById(R.id.tvStartTime);
+            final EditText txtIssue = (EditText) view.findViewById(R.id.txtIssue);
+            final EditText txtSolution = (EditText) view.findViewById(R.id.txtSolution);
+
+            QueryHttpGetServiceTask task = new QueryHttpGetServiceTask(this.getActivity());
+            task.execute(EConstant.URL + "GetServiceById?serviceId=" + serviceId);
+            GsonBuilder builder = new GsonBuilder();
+            builder.setDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+            final DateFormat df = new SimpleDateFormat("dd-MMM-yyyy HH:mm");
+            Gson gson = builder.create();
+
             String json = task.get();
             EDetailService objDetailService = gson.fromJson(json, EDetailService.class);
-            tvATMID.setText(String.valueOf(objDetailService.getAtmId()));
+            tvATMID.setText(objDetailService.getAtmId());
             tvSerial.setText(objDetailService.getSerial());
             tvBank.setText(objDetailService.getBank());
             tvBranch.setText(objDetailService.getBranch());
@@ -116,48 +126,43 @@ public class OpenServiceDetailFragment extends Fragment {
                 lstServicePart.setAdapter(adapter);
             }
 
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
 
-        final SharedPreferences sharedpreferences = this.getActivity().getSharedPreferences(EConstant.MY_PREFERENCES, Context.MODE_PRIVATE);
-        ImageButton btCheckIn = (ImageButton) view.findViewById(R.id.btCheckIn);
-        ImageButton btTakePhoto = (ImageButton) view.findViewById(R.id.btTakePhoto);
-        ImageButton btPhotoGallery = (ImageButton) view.findViewById(R.id.btPhotoGallery);
-        ImageButton btCloseService = (ImageButton) view.findViewById(R.id.btCloseService);
-        _imageView = (ImageView) view.findViewById(R.id.imgCap);
-        _imageView2 = (ImageView) view.findViewById(R.id.imgCap2);
-        _imageView3 = (ImageView) view.findViewById(R.id.imgCap3);
+            final SharedPreferences sharedpreferences = this.getActivity().getSharedPreferences(EConstant.MY_PREFERENCES, Context.MODE_PRIVATE);
+            ImageButton btCheckIn = (ImageButton) view.findViewById(R.id.btCheckIn);
+            ImageButton btTakePhoto = (ImageButton) view.findViewById(R.id.btTakePhoto);
+            ImageButton btPhotoGallery = (ImageButton) view.findViewById(R.id.btPhotoGallery);
+            ImageButton btCloseService = (ImageButton) view.findViewById(R.id.btCloseService);
+            _imageView = (ImageView) view.findViewById(R.id.imgCap);
+            _imageView2 = (ImageView) view.findViewById(R.id.imgCap2);
+            _imageView3 = (ImageView) view.findViewById(R.id.imgCap3);
 
-        btCheckIn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                QueryHttpPostServiceTask taskPost = new QueryHttpPostServiceTask(getActivity());
-                List<NameValuePair> nameValuePair = new ArrayList<NameValuePair>(2);
-                nameValuePair.add(new BasicNameValuePair("URL", EConstant.URL + "CheckInService"));
-                nameValuePair.add(new BasicNameValuePair("serviceId", String.valueOf(serviceId)));
-                nameValuePair.add(new BasicNameValuePair("dateTimeAssign", df.format(Calendar.getInstance().getTime())));
-                nameValuePair.add(new BasicNameValuePair("username", sharedpreferences.getString(EConstant.MY_PREFERENCES_USER_NAME, "")));
-                taskPost.execute(nameValuePair);
-            }
-        });
-
-        btCloseService.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                boolean flagImage = false;
-                for (String pathFileImage : lstPathFileImage) {
-                    if (!pathFileImage.isEmpty() && !pathFileImage.equals("")) {
-                        flagImage = true;
-                        break;
-                    }
+            btCheckIn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    QueryHttpPostServiceTask taskPost = new QueryHttpPostServiceTask(getActivity());
+                    List<NameValuePair> nameValuePair = new ArrayList<NameValuePair>(2);
+                    nameValuePair.add(new BasicNameValuePair("URL", EConstant.URL + "CheckInService"));
+                    nameValuePair.add(new BasicNameValuePair("serviceId", String.valueOf(serviceId)));
+                    nameValuePair.add(new BasicNameValuePair("dateTimeAssign", df.format(Calendar.getInstance().getTime())));
+                    nameValuePair.add(new BasicNameValuePair("username", sharedpreferences.getString(EConstant.MY_PREFERENCES_USER_NAME, "")));
+                    taskPost.execute(nameValuePair);
                 }
-                if (flagImage)
-                    showProgressDialog(serviceId, txtIssue.getText().toString(), txtSolution.getText().toString());
-                else
-                    Toast.makeText(getActivity(), "Please take photo or chose photo from gallery !", Toast.LENGTH_SHORT).show();
+            });
+
+            btCloseService.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    boolean flagImage = false;
+                    for (String pathFileImage : lstPathFileImage) {
+                        if (!pathFileImage.isEmpty() && !pathFileImage.equals("")) {
+                            flagImage = true;
+                            break;
+                        }
+                    }
+                    if (flagImage)
+                        showProgressDialog(serviceId, txtIssue.getText().toString(), txtSolution.getText().toString());
+                    else
+                        Toast.makeText(getActivity(), "Please take photo or chose photo from gallery !", Toast.LENGTH_SHORT).show();
                 /*
                 for (String pathFileImage : lstPathFileImage) {
                     if (!pathFileImage.isEmpty() && !pathFileImage.equals("")) {
@@ -197,25 +202,29 @@ public class OpenServiceDetailFragment extends Fragment {
                 if (content.equals(""))
                     Toast.makeText(v.getContext(), "Upload file successfully", Toast.LENGTH_SHORT).show();
                     */
-            }
-        });
+                }
+            });
 
-        btTakePhoto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                TakePhoto();
-            }
-        });
+            btTakePhoto.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    TakePhoto();
+                }
+            });
 
-        btPhotoGallery.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(EConstant.ACTION_MULTIPLE_PICK);
-                startActivityForResult(i, EConstant.REQUEST_CODE_PHOTO_GALLERY);
-            }
-        });
-        for (int i = 0; i <= 2; i++)
-            lstPathFileImage.add("");
+            btPhotoGallery.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(EConstant.ACTION_MULTIPLE_PICK);
+                    startActivityForResult(i, EConstant.REQUEST_CODE_PHOTO_GALLERY);
+                }
+            });
+            for (int i = 0; i <= 2; i++)
+                lstPathFileImage.add("");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return view;
     }
 

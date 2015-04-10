@@ -17,7 +17,6 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import adapter.OpenServiceAdapter;
 import entity.EConstant;
@@ -36,14 +35,16 @@ public class OpenServiceFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_open, container, false);
-        ArrayList<HashMap<String, String>> openServerList = new ArrayList<HashMap<String, String>>();
-        QueryHttpGetServiceTask task = new QueryHttpGetServiceTask(this.getActivity());
-        final SharedPreferences sharedpreferences = this.getActivity().getSharedPreferences(EConstant.MY_PREFERENCES, Context.MODE_PRIVATE);
-        if (sharedpreferences.contains(EConstant.MY_PREFERENCES_USER_ID) && sharedpreferences.getInt(EConstant.MY_PREFERENCES_USER_ID, -1) != -1) {
-            task.execute(EConstant.URL + "GetAllServicesByUserAssignedId?userAssignedId=" + sharedpreferences.getInt(EConstant.MY_PREFERENCES_USER_ID, -1));
-            Gson gson = new Gson();
-            try {
+        View view = inflater.inflate(R.layout.fragment_open_service, container, false);
+        final OpenServiceFragment currentFragment = this;
+        try {
+            ArrayList<HashMap<String, String>> openServerList = new ArrayList<HashMap<String, String>>();
+            QueryHttpGetServiceTask task = new QueryHttpGetServiceTask(this.getActivity());
+            final SharedPreferences sharedpreferences = this.getActivity().getSharedPreferences(EConstant.MY_PREFERENCES, Context.MODE_PRIVATE);
+            if (sharedpreferences.contains(EConstant.MY_PREFERENCES_USER_ID) && sharedpreferences.getInt(EConstant.MY_PREFERENCES_USER_ID, -1) != -1) {
+                task.execute(EConstant.URL + "GetAllServicesByUserAssignedId?userAssignedId=" + sharedpreferences.getInt(EConstant.MY_PREFERENCES_USER_ID, -1));
+                Gson gson = new Gson();
+
                 String json = task.get();
                 Type collectionType = new TypeToken<List<ESummaryService>>() {
                 }.getType();
@@ -61,19 +62,18 @@ public class OpenServiceFragment extends Fragment {
                 lstOpenService = (ListView) view.findViewById(R.id.lstOpenService);
                 adapter = new OpenServiceAdapter(this.getActivity(), openServerList);
                 lstOpenService.setAdapter(adapter);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (ExecutionException e) {
-                e.printStackTrace();
+
+                lstOpenService.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        view.setSelected(true);
+                        fragmentDetail = new OpenServiceDetailFragment("FragmentServiceDetail");
+                        loadFragmentObj.initializeFragment(currentFragment, fragmentDetail, fragmentDetail.getTextName(), (int) id);
+                    }
+                });
+                loadFragmentObj = new LoadFragment(getFragmentManager());
             }
-            lstOpenService.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    fragmentDetail = new OpenServiceDetailFragment();
-                    loadFragmentObj.initializeFragment(fragmentDetail, (int)id);
-                }
-            });
-            loadFragmentObj = new LoadFragment(getFragmentManager());
+        } catch (Exception e) {
         }
         return view;
     }

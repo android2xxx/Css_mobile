@@ -1,14 +1,14 @@
-package com.microtecweb.css_mobile;
+package entity;
 
 /**
  * Created by dungnq on 3/30/2015.
  */
-public class DrawerItem {
+public class EDrawerItem {
 
     String ItemName;
     int imgResID;
 
-    public DrawerItem(String itemName, int imgResID) {
+    public EDrawerItem(String itemName, int imgResID) {
         super();
         ItemName = itemName;
         this.imgResID = imgResID;

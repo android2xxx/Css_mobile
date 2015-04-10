@@ -8,7 +8,7 @@ import java.util.List;
  */
 public class EDetailService {
     private Integer ServiceId;
-    private Integer AtmId;
+    private String AtmId;
     private String Serial;
     private String Branch;
     private String Contract;
@@ -19,11 +19,11 @@ public class EDetailService {
     private String Issue;
     private List<EPart> Parts;
 
-    public Integer getAtmId() {
+    public String getAtmId() {
         return AtmId;
     }
 
-    public void setAtmId(Integer atmId) {
+    public void setAtmId(String atmId) {
         this.AtmId = atmId;
     }
 

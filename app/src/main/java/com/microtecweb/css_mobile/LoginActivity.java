@@ -84,7 +84,7 @@ public class LoginActivity extends ActionBarActivity {
     }
 
     private void startActivityMain() {
-        Intent myIntent = new Intent(this, MainMenu.class);
+        Intent myIntent = new Intent(this, MainMenuActivity.class);
         startActivity(myIntent);
     }
 }
