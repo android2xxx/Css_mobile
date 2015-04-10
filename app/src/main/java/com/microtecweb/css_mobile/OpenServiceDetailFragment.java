@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -76,7 +77,9 @@ public class OpenServiceDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         Bundle extras = getArguments();
+
         final int serviceId = extras.getInt(LoadFragment.PACKAGE_ID);
+        ((ActionBarActivity)this.getActivity()).getSupportActionBar().setTitle("ServiceId: " + serviceId);
         View view = inflater.inflate(R.layout.fragment_open_service_detail, container, false);
         try {
             TextView tvATMID = (TextView) view.findViewById(R.id.tvATMID);

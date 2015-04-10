@@ -19,7 +19,6 @@ import taskserver.QueryHttpGetServiceTask;
 
 
 public class LoginActivity extends ActionBarActivity {
-    final Context context = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +59,7 @@ public class LoginActivity extends ActionBarActivity {
                                         editor.putString(EConstant.MY_PREFERENCES_PASSWORD, "");
                                         editor.putBoolean(EConstant.MY_PREFERENCES_REMEMBER, false);
                                     }
-                                    result = "Login succesfully";
+                                    result = "Login successfully";
                                     editor.commit();
                                     startActivityMain();
                                 }

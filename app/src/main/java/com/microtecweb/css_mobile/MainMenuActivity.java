@@ -42,7 +42,7 @@ public class MainMenuActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         //setTheme(android.R.style.AppBaseTheme);
         //setTheme(android.R.style.Theme_Holo_Light_DarkActionBar);
-        setTheme(android.R.style.Theme_Holo_Light);
+        //setTheme(android.R.style.Theme_Holo_Light);
         setContentView(R.layout.activity_main_menu);
 
         dataList = new ArrayList<EDrawerItem>();
@@ -98,16 +98,35 @@ public class MainMenuActivity extends ActionBarActivity {
 
     Fragment fragment = null;
 
-    public void SelectItem(int possition) {
+    public void SelectItem(int position) {
+        FragmentManager frgManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = frgManager.beginTransaction();
 
         Bundle args = new Bundle();
-        switch (possition) {
+        switch (position) {
             case 0:
                 fragment = new RequestService();
                 break;
             case 1:
                 fragment = new OpenServiceFragment();
-                args.putInt("ServiceId", 0);
+                boolean flag = false;
+                while (getFragmentManager().getBackStackEntryCount() > 0) {
+                    Fragment openServiceDetailFragment = getFragmentManager().findFragmentByTag("OpenServiceDetailFragment");
+                    if (openServiceDetailFragment != null) {
+                        fragmentTransaction.remove(openServiceDetailFragment);
+                        getFragmentManager().popBackStackImmediate();
+                    }
+
+                    Fragment openServiceFragment = getFragmentManager().findFragmentByTag("OpenServiceFragment");
+                    if (openServiceFragment != null) {
+                        fragmentTransaction.remove(openServiceFragment);
+                        getFragmentManager().popBackStackImmediate();
+                    }
+                }
+                fragmentTransaction.replace(R.id.content_frame, fragment, "OpenServiceFragment");
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+
                 break;
             case 4:
                 fragment = new ServiceHistoryFragment();
@@ -115,32 +134,8 @@ public class MainMenuActivity extends ActionBarActivity {
             default:
                 break;
         }
-
-        fragment.setArguments(args);
-        FragmentManager frgManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = frgManager.beginTransaction();
-        boolean flag = false;
-        while (getFragmentManager().getBackStackEntryCount() > 0) {
-            Fragment fragmentServiceDetail = getFragmentManager().findFragmentByTag("FragmentServiceDetail");
-            if (fragmentServiceDetail != null) {
-                fragmentTransaction.remove(fragmentServiceDetail);
-                getFragmentManager().popBackStackImmediate();
-                //fragmentTransaction.commit();
-            }
-
-            Fragment fragmentMenu = getFragmentManager().findFragmentByTag("FragmentMenu");
-            if (fragmentMenu != null) {
-                fragmentTransaction.remove(fragmentMenu);
-                getFragmentManager().popBackStackImmediate();
-                //fragmentTransaction.commit();
-            }
-
-        }
-        fragmentTransaction.replace(R.id.content_frame, fragment, "FragmentMenu");
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
-        mDrawerList.setItemChecked(possition, true);
-        setTitle(dataList.get(possition).getItemName());
+        mDrawerList.setItemChecked(position, true);
+        setTitle(dataList.get(position).getItemName());
         mDrawerLayout.closeDrawer(mDrawerList);
     }
 
@@ -151,16 +146,18 @@ public class MainMenuActivity extends ActionBarActivity {
         else {
             if (getFragmentManager().getBackStackEntryCount() > 0) {
                 FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                Fragment fragmentServiceDetail = getFragmentManager().findFragmentByTag("FragmentServiceDetail");
-                if (fragmentServiceDetail != null)
-                    fragmentTransaction.hide(fragmentServiceDetail);
-                Fragment fragmentMenu = getFragmentManager().findFragmentByTag("FragmentMenu");
-                if (fragmentMenu != null)
-                    fragmentTransaction.show(fragmentMenu);
-                //getFragmentManager().popBackStackImmediate();
+                Fragment openServiceDetailFragment = getFragmentManager().findFragmentByTag("OpenServiceDetailFragment");
+                if (openServiceDetailFragment != null)
+                    fragmentTransaction.hide(openServiceDetailFragment);
+                Fragment openServiceFragment = getFragmentManager().findFragmentByTag("OpenServiceFragment");
+                if (openServiceFragment != null)
+                {
+                    if(!openServiceFragment.isVisible())
+                        fragmentTransaction.show(openServiceFragment);
+                    else
+                        super.onBackPressed();
+                }
                 fragmentTransaction.commit();
-                //fragmentTransaction.hide(getFragmentManager().findFragmentById(backEntry.getId()));
-
             } else {
                 super.onBackPressed();
             }
@@ -221,7 +218,7 @@ public class MainMenuActivity extends ActionBarActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == EConstant.REQUEST_CODE_PHOTO_GALLERY || requestCode == EConstant.REQUEST_CODE_TAKE_PHOTO) {
             OpenServiceFragment a = (OpenServiceFragment) fragment;
-            a.fragmentDetail.onActivityResult(requestCode, resultCode, data);
+            a.openServiceDetailFragment.onActivityResult(requestCode, resultCode, data);
         }
     }
 }

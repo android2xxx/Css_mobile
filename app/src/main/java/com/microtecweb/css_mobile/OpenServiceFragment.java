@@ -29,7 +29,7 @@ public class OpenServiceFragment extends Fragment {
     ListView lstOpenService;
     OpenServiceAdapter adapter;
     LoadFragment loadFragmentObj;
-    OpenServiceDetailFragment fragmentDetail;
+    OpenServiceDetailFragment openServiceDetailFragment;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -67,8 +67,8 @@ public class OpenServiceFragment extends Fragment {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         view.setSelected(true);
-                        fragmentDetail = new OpenServiceDetailFragment("FragmentServiceDetail");
-                        loadFragmentObj.initializeFragment(currentFragment, fragmentDetail, fragmentDetail.getTextName(), (int) id);
+                        openServiceDetailFragment = new OpenServiceDetailFragment("OpenServiceDetailFragment");
+                        loadFragmentObj.initializeFragment(currentFragment, openServiceDetailFragment, openServiceDetailFragment.getTextName(), (int) id);
                     }
                 });
                 loadFragmentObj = new LoadFragment(getFragmentManager());
