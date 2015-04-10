@@ -130,6 +130,9 @@ public class MainMenuActivity extends ActionBarActivity {
                 break;
             case 4:
                 fragment = new ServiceHistoryFragment();
+                fragmentTransaction.replace(R.id.content_frame, fragment, "ServiceHistoryFragment");
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
                 break;
             default:
                 break;
