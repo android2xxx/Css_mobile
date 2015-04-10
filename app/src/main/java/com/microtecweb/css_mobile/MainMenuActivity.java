@@ -109,7 +109,9 @@ public class MainMenuActivity extends ActionBarActivity {
                 fragment = new OpenServiceFragment();
                 args.putInt("ServiceId", 0);
                 break;
-
+            case 4:
+                fragment = new ServiceHistoryFragment();
+                break;
             default:
                 break;
         }
