@@ -118,7 +118,7 @@ public class Function {
         {
             straddress  = cursor.getString( cursor.getColumnIndex("address") );
 //            straddress = "84983241066";
-            if (true)//(straddress.contains(str_last_address))
+            if (straddress.contains(str_last_address))
             {
                 strbody = cursor.getString(cursor.getColumnIndex("address")) + " | " + cursor.getString(cursor.getColumnIndex("body"));
                 //strbody = cursor.getString(cursor.getColumnIndex("body"));
