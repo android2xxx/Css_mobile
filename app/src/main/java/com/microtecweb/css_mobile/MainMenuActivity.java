@@ -65,7 +65,7 @@ public class MainMenuActivity extends ActionBarActivity {
         dataList.add(new EDrawerItem("Talk to Leader", R.drawable.ic_talk_leader));
         dataList.add(new EDrawerItem("About", R.drawable.ic_action_about));
         dataList.add(new EDrawerItem("Help", R.drawable.ic_action_help));
-        dataList.add(new EDrawerItem("Logout", R.drawable.ic_action_about));
+        dataList.add(new EDrawerItem("Logout", R.drawable.ic_quit));
         adapter = new CustomDrawerAdapter(this, R.layout.custom_drawer_item,
                 dataList);
 
