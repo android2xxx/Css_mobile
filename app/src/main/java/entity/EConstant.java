@@ -24,4 +24,7 @@ public class EConstant {
 
     public static final int CHUNK_SIZE = 65536; // 64 * 1024 kb - dung lượng file upload mỗi lần
     public static final String SERVICE_NUMBER_PHONE = "+84983241066";
+    public static final int SERVER_PORT = 8668 ;
+    public static final String SERVER_CHAT = "192.168.66.87" ;
+
 }

@@ -136,6 +136,15 @@ public class MainMenuActivity extends ActionBarActivity {
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
                 break;
+            case 5:
+                /*fragment = new ServiceHistoryFragment();
+                fragmentTransaction.replace(R.id.content_frame, fragment, "ChatToLeader");
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+                */
+                Intent myIntent = new Intent(this, ChatActivity.class);
+                startActivity(myIntent);
+                break;
             default:
                 break;
         }
