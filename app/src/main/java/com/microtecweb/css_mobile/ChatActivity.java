@@ -76,9 +76,10 @@ public class ChatActivity extends Activity {
         });
     }
     private boolean sendChatMessage(){
-        ChatClientTask myClientTask=new ChatClientTask("192.168.68.106",8182);
+        ChatClientTask myClientTask=new ChatClientTask("192.168.35.101",8182);
         myClientTask.execute();
         chatArrayAdapter.add(new ChatMessage(side, chatText.getText().toString()));
+        Log.d(TAG,"Message sent :"+chatText.getText().toString());
         chatText.setText("");
        // side = !side;
         return true;
