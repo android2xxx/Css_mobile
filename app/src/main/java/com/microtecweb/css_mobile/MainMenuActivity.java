@@ -159,6 +159,7 @@ public class MainMenuActivity extends ActionBarActivity {
                 SharedPreferences.Editor editor = sharedpreferences.edit();
                 editor.putString(EConstant.MY_PREFERENCES_PASSWORD, "");
                 editor.putBoolean(EConstant.MY_PREFERENCES_REMEMBER, false);
+                editor.commit();
                 System.exit(0);
                 break;
             default:
