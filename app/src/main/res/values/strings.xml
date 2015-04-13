@@ -42,4 +42,6 @@
     <string name="radio_outbox">Outbox</string>
     <string name="lb_submit">Submit</string>
     <string name="title_hint">Nhap tin nhan</string>
+    <string name="title_talk_to_leader">Talk To Leadern</string>
+
 </resources>

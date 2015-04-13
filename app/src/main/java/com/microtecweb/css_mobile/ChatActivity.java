@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.database.DataSetObserver;
 import android.os.AsyncTask;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -21,6 +20,10 @@ import java.io.DataOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+
+import adapter.ChatArrayAdapter;
+import entity.ChatMessage;
+import entity.EConstant;
 
 
 public class ChatActivity extends Activity {
@@ -76,7 +79,7 @@ public class ChatActivity extends Activity {
         });
     }
     private boolean sendChatMessage(){
-        ChatClientTask myClientTask=new ChatClientTask("192.168.35.101",8182);
+        ChatClientTask myClientTask=new ChatClientTask(EConstant.SERVER_CHAT, EConstant.SERVER_PORT);
         myClientTask.execute();
         chatArrayAdapter.add(new ChatMessage(side, chatText.getText().toString()));
         Log.d(TAG,"Message sent :"+chatText.getText().toString());
