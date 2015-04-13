@@ -1,4 +1,4 @@
-package com.microtecweb.css_mobile;
+package adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -11,7 +11,9 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.sql.Array;
+import entity.ChatMessage;
+import com.microtecweb.css_mobile.R;
+
 import java.util.ArrayList;
 import java.util.List;
 

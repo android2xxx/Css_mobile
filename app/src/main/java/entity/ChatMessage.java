@@ -1,4 +1,4 @@
-package com.microtecweb.css_mobile;
+package entity;
 
 /**
  * Created by User on 4/12/2015.

@@ -121,9 +121,6 @@ public class MainMenuActivity extends ActionBarActivity {
         switch (position) {
             case 0:
                 fragment = new RequestService();
-                fragmentTransaction.replace(R.id.content_frame, fragment, "RequestOpenService");
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
                 break;
             case 1:
                 fragment = new OpenServiceFragment();
