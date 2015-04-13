@@ -26,7 +26,10 @@ import android.widget.Toast;
 
 import adapter.OpenServicePartAdapter;
 import entity.EConstant;
-
+import entity.ESmsRep;
+import function.Function;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -55,35 +58,29 @@ public class ServiceHistoryFragment extends Fragment {
         btScan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                List<String> listSms = new ArrayList<String>();
-                listSms = GetListSms();
-                DisplayListView(listView, listSms);
+                RadioGroup radioGroup = (RadioGroup)view.findViewById(R.id.radioDirection);
+                int id = radioGroup.getCheckedRadioButtonId();
+                if (id == R.id.radioInbox) {
+                    List<String> listSms = new ArrayList<String>();
+                    listSms = GetListSms();
+                    DisplayListView(listView, listSms);
+                }
+                else
+                {
+                    List<String> lstDemo = Function.getOutboxSms((Context)getActivity());
+                    DisplayOutboxView(listView, lstDemo);
+                }
+
+
             }
         });
 
         return view;
     }
 
-    private void PrepareData() {
-        data = new ArrayList<Map<String, Object>>();
-        Map<String, Object> item;
-        item = new HashMap<String, Object>();
-        item.put("1", "A");
-        item.put("2", "B");
-        data.add(item);
-        item = new HashMap<String, Object>();
-        item.put("3", "C");
-        item.put("4", "D");
-        data.add(item);
-        item = new HashMap<String, Object>();
-        item.put("5", "E");
-        item.put("6", "F");
-        data.add(item);
-    }
 
     private void DisplayListView(ListView listView, List<String> listSms)
     {
-        //Toast.makeText(getActivity().getApplicationContext(),"abc", Toast.LENGTH_LONG).show();
         ArrayAdapter<String>adapter;
         adapter=new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1,listSms);
         listView.setAdapter(adapter);
@@ -92,22 +89,25 @@ public class ServiceHistoryFragment extends Fragment {
     private List<String> GetListSms() {
         List<String> listSms = new ArrayList<String>();
         Uri uri = Uri.parse("content://sms/");
-        ContentResolver contentResolver = getActivity().getContentResolver();
+        ContentResolver contentResolver = ((Context)getActivity()).getContentResolver();
 
         String phoneNumber = EConstant.SERVICE_NUMBER_PHONE ;
         String sms = "address='"+ phoneNumber + "'";
         Cursor cursor = contentResolver.query(uri, new String[] { "_id", "body", "date" }, sms, null,   null);
-
-//        System.out.println ( cursor.getCount() );
-
         while (cursor.moveToNext())
         {
-            //String strbody = cursor.getString( cursor.getColumnIndex("date") );
             String strbody = cursor.getString( cursor.getColumnIndex("body") );
-            //System.out.println ( strbody );
             listSms.add(strbody);
         }
         return listSms;
+    }
+
+
+    private void DisplayOutboxView(ListView listView, List<String> listSms)
+    {
+        ArrayAdapter<String>adapter;
+        adapter=new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1,listSms);
+        listView.setAdapter(adapter);
     }
 }
 
