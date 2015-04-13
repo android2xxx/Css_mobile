@@ -161,7 +161,7 @@ public class MainMenuActivity extends ActionBarActivity {
                 editor.putBoolean(EConstant.MY_PREFERENCES_REMEMBER, false);
                 editor.commit();
                 System.exit(0);
-                
+
                 break;
             default:
                 break;

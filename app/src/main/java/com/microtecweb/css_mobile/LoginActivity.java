@@ -69,7 +69,7 @@ public class LoginActivity extends ActionBarActivity {
                                         editor.putBoolean(EConstant.MY_PREFERENCES_REMEMBER, false);
                                     }
                                     result = "Login successfully";
-                                    editor.commit();
+                                    editor.commit(); 
                                     startActivityMain();
                                 }
                             }
