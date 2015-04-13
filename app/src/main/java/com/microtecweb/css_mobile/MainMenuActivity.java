@@ -3,9 +3,12 @@ package com.microtecweb.css_mobile;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -62,7 +65,7 @@ public class MainMenuActivity extends ActionBarActivity {
         dataList.add(new EDrawerItem("Talk to Leader", R.drawable.ic_talk_leader));
         dataList.add(new EDrawerItem("About", R.drawable.ic_action_about));
         dataList.add(new EDrawerItem("Help", R.drawable.ic_action_help));
-
+        dataList.add(new EDrawerItem("Logout", R.drawable.ic_action_about));
         adapter = new CustomDrawerAdapter(this, R.layout.custom_drawer_item,
                 dataList);
 
@@ -149,6 +152,15 @@ public class MainMenuActivity extends ActionBarActivity {
                 Intent myIntent = new Intent(this, ChatActivity.class);
                 startActivity(myIntent);
                 break;
+
+            case 8:
+                final SharedPreferences sharedpreferences = getSharedPreferences(EConstant.MY_PREFERENCES, Context.MODE_PRIVATE);
+
+                SharedPreferences.Editor editor = sharedpreferences.edit();
+                editor.putString(EConstant.MY_PREFERENCES_PASSWORD, "");
+                editor.putBoolean(EConstant.MY_PREFERENCES_REMEMBER, false);
+                System.exit(0);
+                break;
             default:
                 break;
         }
@@ -168,25 +180,22 @@ public class MainMenuActivity extends ActionBarActivity {
                 if (openServiceDetailFragment != null)
                     fragmentTransaction.hide(openServiceDetailFragment);
                 Fragment openServiceFragment = getFragmentManager().findFragmentByTag("OpenServiceFragment");
-                if (openServiceFragment != null)
-                {
-                    if(!openServiceFragment.isVisible())
+                if (openServiceFragment != null) {
+                    if (!openServiceFragment.isVisible())
                         fragmentTransaction.show(openServiceFragment);
                     else
                         super.onBackPressed();
                 }
                 Fragment serviceHistoryFragment = getFragmentManager().findFragmentByTag("ServiceHistoryFragment");
-                if (serviceHistoryFragment != null)
-                {
-                    if(!serviceHistoryFragment.isVisible())
+                if (serviceHistoryFragment != null) {
+                    if (!serviceHistoryFragment.isVisible())
                         fragmentTransaction.show(serviceHistoryFragment);
                     else
                         super.onBackPressed();
                 }
                 Fragment requestServiceFragment = getFragmentManager().findFragmentByTag("RequestServiceFragment");
-                if (requestServiceFragment != null)
-                {
-                    if(!requestServiceFragment.isVisible())
+                if (requestServiceFragment != null) {
+                    if (!requestServiceFragment.isVisible())
                         fragmentTransaction.show(requestServiceFragment);
                     else
                         super.onBackPressed();
