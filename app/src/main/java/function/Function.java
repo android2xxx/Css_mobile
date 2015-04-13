@@ -1,8 +1,11 @@
 package function;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
+import android.text.TextUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -11,6 +14,10 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+
+import entity.ESmsRep;
 
 /**
  * Created by HieuHT on 04/02/2015.
@@ -55,7 +62,8 @@ public class Function {
         if (str == null)
             return false;
         try {
-        /* int i = */ Integer.parseInt(str);
+        /* int i = */
+            Integer.parseInt(str);
         } catch (NumberFormatException nfe) {
             return false;
         }
@@ -91,4 +99,43 @@ public class Function {
         is.close();
         return bytes;
     }
+
+    public static List<ESmsRep> getOutboxSms(Context ctx) {
+        if (null == ctx) {
+            return new ArrayList<ESmsRep>();
+        }
+        Uri uriSms = Uri.parse("content://sms/sent");
+        Cursor cursor = ctx.getContentResolver().query(uriSms, null, null, null, null);
+        List<ESmsRep> outboxSms = cursor2SmsArray(cursor);
+        if (!cursor.isClosed()) {
+            cursor.close();
+        }
+        return outboxSms;
+    }
+
+    private static List<ESmsRep> cursor2SmsArray(Cursor cursor) {
+        if (null == cursor || 0 == cursor.getCount()) {
+            return new ArrayList<ESmsRep>();
+        }
+        List<ESmsRep> messages = new ArrayList<ESmsRep>();
+        try {
+            for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
+                ESmsRep singleSms = new ESmsRep();
+                singleSms.setId(cursor.getInt(cursor.getColumnIndexOrThrow("_id")));
+                singleSms.setAddress(cursor.getString(cursor.getColumnIndexOrThrow("address")));
+                singleSms.setTimestamp(cursor.getLong(cursor.getColumnIndexOrThrow("date")) / 1000);
+                singleSms.setType(cursor.getInt(cursor.getColumnIndexOrThrow("type")));
+                singleSms.setProtocol(cursor.getInt(cursor.getColumnIndexOrThrow("protocol")));
+                String smsBody = cursor.getString(cursor.getColumnIndexOrThrow("body"));
+                byte[] bodyBytes = smsBody.getBytes("UTF8");
+                singleSms.setBody(TextUtils.htmlEncode(new String(bodyBytes, "UTF8")));
+                messages.add(singleSms);
+            }
+        } catch (Exception e) {
+        } finally {
+            cursor.close();
+        }
+        return messages;
+    }
+
 }

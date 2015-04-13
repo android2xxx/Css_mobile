@@ -25,6 +25,7 @@ import android.content.Context;
 import android.widget.Toast;
 
 import adapter.OpenServicePartAdapter;
+import entity.EConstant;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -82,7 +83,7 @@ public class ServiceHistoryFragment extends Fragment {
 
     private void DisplayListView(ListView listView, List<String> listSms)
     {
-        Toast.makeText(getActivity().getApplicationContext(),"abc", Toast.LENGTH_LONG).show();
+        //Toast.makeText(getActivity().getApplicationContext(),"abc", Toast.LENGTH_LONG).show();
         ArrayAdapter<String>adapter;
         adapter=new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1,listSms);
         listView.setAdapter(adapter);
@@ -93,7 +94,7 @@ public class ServiceHistoryFragment extends Fragment {
         Uri uri = Uri.parse("content://sms/");
         ContentResolver contentResolver = getActivity().getContentResolver();
 
-        String phoneNumber = "+84983241066";
+        String phoneNumber = EConstant.SERVICE_NUMBER_PHONE ;
         String sms = "address='"+ phoneNumber + "'";
         Cursor cursor = contentResolver.query(uri, new String[] { "_id", "body", "date" }, sms, null,   null);
 

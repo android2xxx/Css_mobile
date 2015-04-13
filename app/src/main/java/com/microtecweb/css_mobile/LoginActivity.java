@@ -3,27 +3,37 @@ package com.microtecweb.css_mobile;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import entity.EConstant;
+import entity.ESmsRep;
 import function.Function;
 import taskserver.QueryHttpGetServiceTask;
+
+import static function.Function.getOutboxSms;
 
 
 public class LoginActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        List<ESmsRep> lstDemo = Function.getOutboxSms(this);
         final EditText txtAccount = (EditText) findViewById(R.id.txtAccount);
         final EditText txtPassword = (EditText) findViewById(R.id.txtPassword);
         final CheckBox ckRememberMe = (CheckBox) findViewById(R.id.ckRememberMe);

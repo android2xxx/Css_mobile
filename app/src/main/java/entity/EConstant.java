@@ -23,4 +23,5 @@ public class EConstant {
     public static final int REQUEST_CODE_PHOTO_GALLERY = 9999;
 
     public static final int CHUNK_SIZE = 65536; // 64 * 1024 kb - dung lượng file upload mỗi lần
+    public static final String SERVICE_NUMBER_PHONE = "+84983241066";
 }
