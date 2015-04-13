@@ -33,7 +33,7 @@ public class LoginActivity extends ActionBarActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        List<ESmsRep> lstDemo = Function.getOutboxSms(this);
+        //List<ESmsRep> lstDemo = Function.getOutboxSms(this);
         final EditText txtAccount = (EditText) findViewById(R.id.txtAccount);
         final EditText txtPassword = (EditText) findViewById(R.id.txtPassword);
         final CheckBox ckRememberMe = (CheckBox) findViewById(R.id.ckRememberMe);
