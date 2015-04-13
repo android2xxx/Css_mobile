@@ -20,6 +20,7 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
+import adapter.CustomDrawerAdapter;
 import entity.EDrawerItem;
 import entity.EConstant;
 
@@ -179,6 +180,14 @@ public class MainMenuActivity extends ActionBarActivity {
                 {
                     if(!serviceHistoryFragment.isVisible())
                         fragmentTransaction.show(serviceHistoryFragment);
+                    else
+                        super.onBackPressed();
+                }
+                Fragment requestServiceFragment = getFragmentManager().findFragmentByTag("RequestServiceFragment");
+                if (requestServiceFragment != null)
+                {
+                    if(!requestServiceFragment.isVisible())
+                        fragmentTransaction.show(requestServiceFragment);
                     else
                         super.onBackPressed();
                 }
