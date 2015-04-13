@@ -41,4 +41,5 @@
     <string name="radio_inbox">Inbox</string>
     <string name="radio_outbox">Outbox</string>
     <string name="lb_submit">Submit</string>
+    <string name="title_hint">Nhap tin nhan</string>
 </resources>
