@@ -51,6 +51,8 @@ public class RequestService extends Fragment {
 
             spinnerBank.setAdapter(adapter);
         } catch (Exception ex) {
+
+            
         }
 
         return view;
