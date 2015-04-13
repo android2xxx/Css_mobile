@@ -36,7 +36,7 @@ public class RequestService extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_open_service_detail, container, false);
+        View view = inflater.inflate(R.layout.fragment_request, container, false);
         Spinner spinnerBank = (Spinner)view.findViewById(R.id.spinnerBank);
         QueryHttpGetServiceTask task = new QueryHttpGetServiceTask(this.getActivity());
         task.execute(EConstant.URL + "GetCustomer");
