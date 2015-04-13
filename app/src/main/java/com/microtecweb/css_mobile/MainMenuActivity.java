@@ -20,6 +20,7 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
+import adapter.CustomDrawerAdapter;
 import entity.EDrawerItem;
 import entity.EConstant;
 
@@ -121,6 +122,9 @@ public class MainMenuActivity extends ActionBarActivity {
         switch (position) {
             case 0:
                 fragment = new RequestService();
+                fragmentTransaction.replace(R.id.content_frame, fragment, "RequestServiceFragment");
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
                 break;
             case 1:
                 fragment = new OpenServiceFragment();
@@ -135,6 +139,15 @@ public class MainMenuActivity extends ActionBarActivity {
                 fragmentTransaction.replace(R.id.content_frame, fragment, "ServiceHistoryFragment");
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
+                break;
+            case 5:
+                /*fragment = new ServiceHistoryFragment();
+                fragmentTransaction.replace(R.id.content_frame, fragment, "ChatToLeader");
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+                */
+                Intent myIntent = new Intent(this, ChatActivity.class);
+                startActivity(myIntent);
                 break;
             default:
                 break;
@@ -167,6 +180,14 @@ public class MainMenuActivity extends ActionBarActivity {
                 {
                     if(!serviceHistoryFragment.isVisible())
                         fragmentTransaction.show(serviceHistoryFragment);
+                    else
+                        super.onBackPressed();
+                }
+                Fragment requestServiceFragment = getFragmentManager().findFragmentByTag("RequestServiceFragment");
+                if (requestServiceFragment != null)
+                {
+                    if(!requestServiceFragment.isVisible())
+                        fragmentTransaction.show(requestServiceFragment);
                     else
                         super.onBackPressed();
                 }
