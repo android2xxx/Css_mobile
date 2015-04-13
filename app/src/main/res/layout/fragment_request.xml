@@ -16,11 +16,17 @@
             android:textStyle="bold"
             android:layout_width="1dip"
             android:layout_weight="1"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="2.5dp"
+            android:layout_marginTop="5dp"
             android:layout_height="wrap_content" />
         <Spinner
             android:layout_width="1dip"
             android:layout_height="wrap_content"
             android:layout_weight="3"
+            android:layout_marginLeft="2.5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
             android:id="@+id/spinnerBank"
             android:spinnerMode="dropdown" />
     </LinearLayout>
@@ -32,11 +38,17 @@
             android:textStyle="bold"
             android:layout_width="1dip"
             android:layout_weight="1"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="2.5dp"
+            android:layout_marginTop="5dp"
             android:layout_height="wrap_content" />
         <Spinner
             android:layout_width="1dip"
             android:layout_height="wrap_content"
             android:layout_weight="3"
+            android:layout_marginLeft="2.5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
             android:id="@+id/spinnerBranch"
             android:spinnerMode="dropdown" />
     </LinearLayout>
@@ -45,7 +57,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
         <TextView
-            android:text="@string/lb_serial"
+            android:text="@string/lb_atmid"
             android:textStyle="bold"
             android:layout_width="1dip"
             android:layout_weight="1"
@@ -53,20 +65,15 @@
             android:layout_marginRight="2.5dp"
             android:layout_marginTop="5dp"
             android:layout_height="wrap_content" />
-        <EditText
-            android:id="@+id/txtSerial"
+        <Spinner
             android:layout_width="1dip"
-            android:layout_weight="2"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
             android:layout_marginLeft="2.5dp"
             android:layout_marginRight="5dp"
             android:layout_marginTop="5dp"
-            android:layout_height="wrap_content" />
-        <Button
-            android:id="@+id/btScan"
-            android:text="@string/lb_scan"
-            android:layout_width="1dip"
-            android:layout_weight="1"
-            android:layout_height="wrap_content" />
+            android:id="@+id/spinnerATM"
+            android:spinnerMode="dropdown" />
     </LinearLayout>
 
     <LinearLayout
@@ -90,6 +97,74 @@
             android:layout_marginTop="5dp"
             android:layout_height="wrap_content" />
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageButton
+            android:id="@+id/btTakePhoto"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="2.5dp"
+            android:layout_marginTop="5dp"
+            android:layout_width="1dip"
+            android:layout_weight="1"
+            android:src="@drawable/takephoto"
+            android:layout_height="wrap_content"
+            android:labelFor="@string/lb_take_photo" />
+        <ImageButton
+            android:id="@+id/btPhotoGallery"
+            android:layout_marginLeft="2.5dp"
+            android:layout_marginRight="2.5dp"
+            android:layout_marginTop="5dp"
+            android:layout_width="1dip"
+            android:layout_weight="1"
+            android:src="@drawable/gallery"
+            android:layout_height="wrap_content"
+            android:labelFor="@string/lb_photo_gallery"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/imgCap"
+            android:layout_width="50dip"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="2.5dp"
+            android:layout_marginTop="5dp"
+            android:layout_weight="2"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/desImgCap"
+            android:src="@android:drawable/ic_menu_gallery"
+            android:visibility="invisible"></ImageView>
+
+        <ImageView
+            android:id="@+id/imgCap2"
+            android:layout_width="50dip"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="2.5dp"
+            android:layout_marginRight="2.5dp"
+            android:layout_marginTop="5dp"
+            android:layout_weight="2"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/desImgCap"
+            android:src="@android:drawable/ic_menu_gallery"
+            android:visibility="invisible"></ImageView>
+
+        <ImageView
+            android:id="@+id/imgCap3"
+            android:layout_width="50dip"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="2.5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_weight="2"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/desImgCap"
+            android:src="@android:drawable/ic_menu_gallery"
+            android:visibility="invisible"></ImageView>
+    </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >

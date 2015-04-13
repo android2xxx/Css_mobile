@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -124,7 +123,7 @@ public class MainMenuActivity extends ActionBarActivity {
 
         switch (position) {
             case 0:
-                fragment = new RequestService();
+                fragment = new RequestServiceFragment();
                 fragmentTransaction.replace(R.id.content_frame, fragment, "RequestServiceFragment");
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
@@ -264,6 +263,10 @@ public class MainMenuActivity extends ActionBarActivity {
         if (requestCode == EConstant.REQUEST_CODE_PHOTO_GALLERY || requestCode == EConstant.REQUEST_CODE_TAKE_PHOTO) {
             OpenServiceFragment a = (OpenServiceFragment) fragment;
             a.openServiceDetailFragment.onActivityResult(requestCode, resultCode, data);
+        }
+        else if (requestCode == EConstant.REQUEST_CODE_PHOTO_GALLERY_FOR_REQUESET_SERVICE || requestCode == EConstant.REQUEST_CODE_TAKE_PHOTO_FOR_REQUESET_SERVICE) {
+            RequestServiceFragment a = (RequestServiceFragment) fragment;
+            a.onActivityResult(requestCode, resultCode, data);
         }
     }
 }
