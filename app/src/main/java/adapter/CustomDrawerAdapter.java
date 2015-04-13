@@ -1,4 +1,4 @@
-package com.microtecweb.css_mobile;
+package adapter;
 
 /**
  * Created by dungnq on 3/30/2015.
@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.microtecweb.css_mobile.R;
 
 import java.util.List;
 
