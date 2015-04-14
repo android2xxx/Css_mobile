@@ -3,6 +3,7 @@ package taskserver;
 /**
  * Created by HieuHT on 04/01/2015.
  */
+
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
@@ -12,25 +13,29 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
+
 import java.io.IOException;
+
 import function.Function;
 
 
-public class QueryHttpGetServiceTask extends AsyncTask<String, Integer, String> {
+public class QueryHttpGetListenerServiceTask extends AsyncTask<String, Integer, String> {
+    private MicFragment fragment;
     private Context mContext;
     ProgressDialog asyncDialog;
 
-    public QueryHttpGetServiceTask(Context context) {
+    public QueryHttpGetListenerServiceTask(Context context, MicFragment fragment) {
         mContext = context;
         asyncDialog = new ProgressDialog(mContext);
+        this.fragment = fragment;
     }
 
     @Override
     protected String doInBackground(String... params) {
         String content = "";
-        if(Function.isURLReachable(mContext, params[0])) {
+        if (Function.isURLReachable(mContext, params[0])) {
             StringBuilder url = new StringBuilder(params[0]);
-            HttpGet get = new HttpGet (url.toString());
+            HttpGet get = new HttpGet(url.toString());
             DefaultHttpClient client = new DefaultHttpClient();
             HttpResponse response = null;
             try {
@@ -40,29 +45,31 @@ public class QueryHttpGetServiceTask extends AsyncTask<String, Integer, String> 
             }
             int status = response.getStatusLine().getStatusCode();
 
-            if(status == 200)
-            {
+            if (status == 200) {
                 HttpEntity entity = response.getEntity();
                 try {
                     content = EntityUtils.toString(entity);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            }
-            else
-            {
+            } else {
                 content = "Server is not available";
             }
-        }
-        else
+        } else
             content = "Server is not available";
         return content;
     }
 
     @Override
     protected void onPostExecute(String result) {
-        super.onPostExecute(result);
+
         asyncDialog.dismiss();
+        if (fragment == null)
+            ((MicActivity) mContext).onTaskCompleted(result);
+        else
+            fragment.onTaskCompleted(result);
+
+        //super.onPostExecute(result);
     }
 
     @Override

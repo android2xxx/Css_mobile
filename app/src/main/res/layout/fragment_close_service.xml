@@ -1,0 +1,88 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.microtecweb.css_mobile.CloseServiceFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <!--  ListRow Left sied Thumbnail image -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:text="@string/lb_from"
+                android:layout_width="1dip"
+                android:layout_weight="1"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="2.5dp"
+                android:layout_marginTop="5dp"
+                android:textStyle="bold"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                android:id="@+id/txtFrom"
+                android:layout_width="1dip"
+                android:layout_weight="2"
+                android:layout_marginLeft="2.5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_height="wrap_content" />
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:text="@string/lb_to"
+                android:layout_width="1dip"
+                android:layout_weight="1"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="2.5dp"
+                android:layout_marginTop="5dp"
+                android:textStyle="bold"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                android:id="@+id/txtTo"
+                android:layout_width="1dip"
+                android:layout_weight="2"
+                android:layout_marginLeft="2.5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_height="wrap_content" />
+
+            <ImageButton
+                android:id="@+id/btSearch"
+                android:layout_marginLeft="2.5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_width="1dip"
+                android:layout_weight="1"
+                android:src="@drawable/ic_action_search"
+                android:layout_height="wrap_content"
+                android:labelFor="@string/lb_search" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ExpandableListView
+                android:id="@+id/listViewService"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></ExpandableListView>
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>
+
+
+

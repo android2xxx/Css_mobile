@@ -113,32 +113,45 @@ public class MainMenuActivity extends ActionBarActivity {
             if (openServiceDetailFragment != null) {
                 fragmentTransaction.remove(openServiceDetailFragment);
                 getFragmentManager().popBackStackImmediate();
+                fragmentTransaction.commit();
             }
 
             Fragment openServiceFragment = getFragmentManager().findFragmentByTag("OpenServiceFragment");
             if (openServiceFragment != null) {
                 fragmentTransaction.remove(openServiceFragment);
                 getFragmentManager().popBackStackImmediate();
+                fragmentTransaction.commit();
             }
+            break;
         }
 
         switch (position) {
             case 0:
                 fragment = new RequestService();
+                fragmentTransaction = frgManager.beginTransaction();
                 fragmentTransaction.replace(R.id.content_frame, fragment, "RequestServiceFragment");
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
                 break;
             case 1:
                 fragment = new OpenServiceFragment();
-
+                fragmentTransaction = frgManager.beginTransaction();
                 fragmentTransaction.replace(R.id.content_frame, fragment, "OpenServiceFragment");
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
-
                 break;
+
+            case 2:
+                fragment = new CloseServiceFragment();
+                fragmentTransaction = frgManager.beginTransaction();
+                fragmentTransaction.replace(R.id.content_frame, fragment, "CloseServiceFragment");
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+                break;
+
             case 4:
                 fragment = new ServiceHistoryFragment();
+                fragmentTransaction = frgManager.beginTransaction();
                 fragmentTransaction.replace(R.id.content_frame, fragment, "ServiceHistoryFragment");
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
@@ -192,6 +205,13 @@ public class MainMenuActivity extends ActionBarActivity {
                 if (serviceHistoryFragment != null) {
                     if (!serviceHistoryFragment.isVisible())
                         fragmentTransaction.show(serviceHistoryFragment);
+                    else
+                        super.onBackPressed();
+                }
+                Fragment closeServiceFragment = getFragmentManager().findFragmentByTag("CloseServiceFragment");
+                if (closeServiceFragment != null) {
+                    if (!closeServiceFragment.isVisible())
+                        fragmentTransaction.show(closeServiceFragment);
                     else
                         super.onBackPressed();
                 }
