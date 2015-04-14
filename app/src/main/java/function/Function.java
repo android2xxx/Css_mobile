@@ -116,8 +116,7 @@ public class Function {
         String straddress, strbody;
         while (cursor.moveToNext())
         {
-            straddress  = cursor.getString( cursor.getColumnIndex("address") );
-//            straddress = "84983241066";
+            straddress  = cursor.getString( cursor.getColumnIndex("address") ).replace(" ", "");
             if (straddress.contains(str_last_address))
             {
                 strbody = cursor.getString(cursor.getColumnIndex("address")) + " | " + cursor.getString(cursor.getColumnIndex("body"));
