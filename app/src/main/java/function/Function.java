@@ -7,7 +7,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.text.TextUtils;
-
+import java.lang.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -15,9 +15,10 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Date;
 import entity.EConstant;
 import entity.ESmsRep;
 
@@ -109,6 +110,8 @@ public class Function {
         Uri uriSms = Uri.parse("content://sms/sent");
         String phoneNumber = EConstant.SERVICE_NUMBER_PHONE ;
         String sms = "address='"+ phoneNumber + "'";
+        Date dateSms;
+        long l;
 //        Cursor cursor = contentResolver.query(uri, new String[] { "_id", "body", "date" }, sms, null,   null);
         Cursor cursor = ctx.getContentResolver().query(uriSms, null, null, null, null);
         List<String> listSms = new ArrayList<String>();
@@ -117,46 +120,47 @@ public class Function {
         while (cursor.moveToNext())
         {
             straddress  = cursor.getString( cursor.getColumnIndex("address") ).replace(" ", "");
+            l = (long)cursor.getColumnIndex("date");
+            dateSms = new java.util.Date(l);
             if (straddress.contains(str_last_address))
             {
-                strbody = cursor.getString(cursor.getColumnIndex("address")) + " | " + cursor.getString(cursor.getColumnIndex("body"));
-                //strbody = cursor.getString(cursor.getColumnIndex("body"));
+                strbody = cursor.getString(cursor.getColumnIndex("date")) + " | " + cursor.getString(cursor.getColumnIndex("body"));
                 listSms.add(strbody);
             }
         }
         return listSms;
-//        List<ESmsRep> outboxSms = cursor2SmsArray(cursor);
-//        if (!cursor.isClosed()) {
-//            cursor.close();
-//        }
-//        return outboxSms;
     }
 
-//    private static List<ESmsRep> cursor2SmsArray(Cursor cursor) {
-//        if (null == cursor || 0 == cursor.getCount()) {
-//            return new ArrayList<ESmsRep>();
-//        }
-//        List<ESmsRep> messages = new ArrayList<ESmsRep>();
-//        try {
-//            for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
-//                ESmsRep singleSms = new ESmsRep();
-//                singleSms.setId(cursor.getInt(cursor.getColumnIndexOrThrow("_id")));
-//                singleSms.setAddress(cursor.getString(cursor.getColumnIndexOrThrow("address")));
-//                singleSms.setTimestamp(cursor.getLong(cursor.getColumnIndexOrThrow("date")) / 1000);
-//                singleSms.setType(cursor.getInt(cursor.getColumnIndexOrThrow("type")));
-//                singleSms.setProtocol(cursor.getInt(cursor.getColumnIndexOrThrow("protocol")));
-//                String smsBody = cursor.getString(cursor.getColumnIndexOrThrow("body"));
-//                byte[] bodyBytes = smsBody.getBytes("UTF8");
-//                singleSms.setBody(TextUtils.htmlEncode(new String(bodyBytes, "UTF8")));
-//                messages.add(singleSms);
-//            }
-//        } catch (Exception e) {
-//        } finally {
-//            cursor.close();
-//        }
-//        return messages;
-//    }
 
+    public static List<String> getOutboxSms(Context ctx, long from, long to) {
+        if (null == ctx) {
+            return new ArrayList<String>();
+        }
+        Uri uriSms = Uri.parse("content://sms/sent");
+        String phoneNumber = EConstant.SERVICE_NUMBER_PHONE ;
+        String sms = "address='"+ phoneNumber + "'";
+        long l;
+        Cursor cursor = ctx.getContentResolver().query(uriSms, null, null, null, null);
+        List<String> listSms = new ArrayList<String>();
+        String str_last_address = EConstant.SERVICE_NUMBER_PHONE.substring(4);
+        String straddress, strbody, time;
+        while (cursor.moveToNext())
+        {
+            straddress  = cursor.getString( cursor.getColumnIndex("address") ).replace(" ", "");
+            String d = cursor.getString( cursor.getColumnIndex("date") );
+            l = (long)Long.parseLong(d);
+
+            if (straddress.contains(str_last_address) && (from <= l) && (l <= to))
+            {
+                strbody = cursor.getString(cursor.getColumnIndex("date")) + " | " + cursor.getString(cursor.getColumnIndex("body"));
+                Date date =new Date(l);
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                time = formatter.format(date);
+                listSms.add(time + " | " + strbody);
+            }
+        }
+        return listSms;
+    }
 
     private static List<String> cursor2SmsArray(Cursor cursor) {
         List<String> listSms = new ArrayList<String>();
