@@ -136,7 +136,10 @@ public class MainMenuActivity extends ActionBarActivity {
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
                 break;
-
+            case 3:
+                Intent myToDoListIntent = new Intent(this, TodoList.class);
+                startActivity(myToDoListIntent);
+                break;
             case 4:
                 fragment = new ServiceHistoryFragment();
                 fragmentTransaction = frgManager.beginTransaction();
