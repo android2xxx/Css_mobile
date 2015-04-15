@@ -53,7 +53,7 @@ public class TodoList extends Activity implements AdapterView.OnItemClickListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_todo_list);
         Parse.initialize(this,"1hMy3Pm1yLVIZk92xgUu0SYv14Np1FNjGEbudBg7","MrDHHAq4drp3ZwVmWl9r55NgHmoacrBDQJEH8YfM");
-        ParseAnalytics.trackAppOpenedInBackground(getIntent());
+        ParseAnalytics.trackAppOpened(getIntent());
         ParseObject.registerSubclass(Task.class);
         mAdapter=new TaskAdapter(this,new ArrayList<Task>());
         mTaskInput=(EditText)findViewById(R.id.task_input);
