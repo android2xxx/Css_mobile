@@ -46,6 +46,6 @@
     <string name="lb_from">From</string>
     <string name="lb_to">To</string>
     <string name="lb_search">Search</string>
-
+    <string name="to_do_list">To do list</string>
 
 </resources>

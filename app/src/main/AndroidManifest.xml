@@ -33,6 +33,10 @@
             android:name=".ChatActivity"
             android:label="@string/title_talk_to_leader"
             android:theme="@style/Theme.AppCompat.Light" />
+        <activity
+            android:name=".TodoList"
+            android:label="@string/to_do_list"
+            android:theme="@style/Theme.AppCompat.Light" />
         <activity android:name="CustomGalleryActivity" >
             <intent-filter>
                 <action android:name="luminous.ACTION_PICK" />
