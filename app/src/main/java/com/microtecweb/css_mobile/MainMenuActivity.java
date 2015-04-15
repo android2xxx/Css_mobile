@@ -91,24 +91,26 @@ public class MainMenuActivity extends ActionBarActivity {
 
     public void SelectItem(int position) {
         FragmentManager frgManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = frgManager.beginTransaction();
+        FragmentTransaction fragmentTransaction;
 
-        Bundle args = new Bundle();
-        while (getFragmentManager().getBackStackEntryCount() > 0) {
-            Fragment openServiceDetailFragment = getFragmentManager().findFragmentByTag("OpenServiceDetailFragment");
-            if (openServiceDetailFragment != null) {
-                fragmentTransaction.remove(openServiceDetailFragment);
-                getFragmentManager().popBackStackImmediate();
-                fragmentTransaction.commit();
+        if(position != 8) {
+            fragmentTransaction = frgManager.beginTransaction();
+            Bundle args = new Bundle();
+            while (getFragmentManager().getBackStackEntryCount() > 0) {
+                Fragment openServiceDetailFragment = getFragmentManager().findFragmentByTag("OpenServiceDetailFragment");
+                if (openServiceDetailFragment != null) {
+                    fragmentTransaction.remove(openServiceDetailFragment);
+                    getFragmentManager().popBackStackImmediate();
+                    fragmentTransaction.commit();
+                }
+                Fragment openServiceFragment = getFragmentManager().findFragmentByTag("OpenServiceFragment");
+                if (openServiceFragment != null) {
+                    fragmentTransaction.remove(openServiceFragment);
+                    getFragmentManager().popBackStackImmediate();
+                    fragmentTransaction.commit();
+                }
+                break;
             }
-
-            Fragment openServiceFragment = getFragmentManager().findFragmentByTag("OpenServiceFragment");
-            if (openServiceFragment != null) {
-                fragmentTransaction.remove(openServiceFragment);
-                getFragmentManager().popBackStackImmediate();
-                fragmentTransaction.commit();
-            }
-            break;
         }
         boolean flagSetFragment = true;
         switch (position) {

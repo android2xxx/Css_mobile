@@ -62,21 +62,19 @@ public class QueryHttpGetListenerServiceTask extends AsyncTask<String, Integer, 
 
     @Override
     protected void onPostExecute(String result) {
-
         asyncDialog.dismiss();
         if (fragment == null)
             ((MicActivity) mContext).onTaskCompleted(result);
         else
             fragment.onTaskCompleted(result);
-
         //super.onPostExecute(result);
     }
 
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        asyncDialog.setMessage("Loading...");
-        //show dialog
+        asyncDialog.setTitle("Loading");
+        asyncDialog.setMessage("Please wait...");
         asyncDialog.show();
     }
 
