@@ -2,24 +2,35 @@ package com.microtecweb.css_mobile;
 
 
 import android.app.Fragment;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 
 import java.io.File;
 import java.lang.reflect.Type;
@@ -30,7 +41,11 @@ import entity.EATM;
 import entity.EBranch;
 import entity.EConstant;
 import entity.ECustomer;
+import entity.EResponse;
+import function.Function;
 import taskserver.QueryHttpGetServiceTask;
+import taskserver.QueryHttpPostServiceTask;
+import taskserver.QueryHttpPostUploadFileServiceTask;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -57,8 +72,10 @@ public class RequestServiceFragment extends Fragment {
         Spinner spinnerBank = (Spinner) view.findViewById(R.id.spinnerBank);
         final Spinner spinnerBranch = (Spinner) view.findViewById(R.id.spinnerBranch);
         final Spinner spinnerATM = (Spinner) view.findViewById(R.id.spinnerATM);
+        final EditText txtIssue = (EditText) view.findViewById(R.id.txtIssue);
         ImageButton btTakePhoto = (ImageButton) view.findViewById(R.id.btTakePhoto);
         ImageButton btPhotoGallery = (ImageButton) view.findViewById(R.id.btPhotoGallery);
+        Button btSubmit = (Button) view.findViewById(R.id.btSubmit);
         _imageView = (ImageView) view.findViewById(R.id.imgCap);
         _imageView2 = (ImageView) view.findViewById(R.id.imgCap2);
         _imageView3 = (ImageView) view.findViewById(R.id.imgCap3);
@@ -116,8 +133,32 @@ public class RequestServiceFragment extends Fragment {
             for (int i = 0; i <= 2; i++)
                 lstPathFileImage.add("");
 
-        } catch (Exception ex) {
+            btSubmit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    boolean flagImage = false;
+                    for (String pathFileImage : lstPathFileImage) {
+                        if (!pathFileImage.isEmpty() && !pathFileImage.equals("")) {
+                            flagImage = true;
+                            break;
+                        }
+                    }
+                    if (flagImage) {
+                        if( spinnerATM.getSelectedItem() != null) {
+                            EATM atm = (EATM) spinnerATM.getSelectedItem();
+                            showProgressDialog(atm.getSerial(), txtIssue.getText().toString());
+                        }
+                        else {
+                            Toast.makeText(getActivity(), "Please select ATM ID !", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    else {
+                        Toast.makeText(getActivity(), "Please take photo or chose photo from gallery !", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
 
+        } catch (Exception ex) {
 
         }
 
@@ -201,7 +242,7 @@ public class RequestServiceFragment extends Fragment {
             String json = task.get();
             Type collectionType = new TypeToken<List<EBranch>>() {
             }.getType();
-           lstBranch = gson.fromJson(json, collectionType);
+            lstBranch = gson.fromJson(json, collectionType);
             ArrayAdapter<EBranch> adapter = new ArrayAdapter<EBranch>(this.getActivity(), android.R.layout.simple_spinner_item, lstBranch);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spinnerBranch.setAdapter(adapter);
@@ -223,5 +264,51 @@ public class RequestServiceFragment extends Fragment {
             spinnerATM.setAdapter(adapter);
         } catch (Exception ex) {
         }
+    }
+
+    private void showProgressDialog(final String serial, final String issue) {
+        // TODO Auto-generated method stub
+        final ProgressDialog progressDialog = ProgressDialog.show(getActivity(), "Uploading", "Please wait...", true);
+
+        new Thread() {
+            public void run() {
+                try {
+                    Integer index = 0;
+                    final SharedPreferences sharedpreferences = getActivity().getSharedPreferences(EConstant.MY_PREFERENCES, Context.MODE_PRIVATE);
+                    EResponse objEResponse = new EResponse();
+                    for (String pathFileImage : lstPathFileImage) {
+                        if (!pathFileImage.isEmpty() && !pathFileImage.equals("")) {
+                            File fileUpload = new File(pathFileImage);
+                            if (fileUpload.exists()) {
+                                try {
+                                    String[] arrayPathFiles = pathFileImage.split("/");
+                                    String fileName = arrayPathFiles[arrayPathFiles.length - 1];
+                                    byte[] byte_arr = Function.getBytesFromFile(fileUpload);
+                                    QueryHttpPostUploadFileServiceTask task = new QueryHttpPostUploadFileServiceTask();
+                                    task.execute(EConstant.URL + "UploadImage", Base64.encodeToString(byte_arr, Base64.DEFAULT), fileName, sharedpreferences.getString(EConstant.MY_PREFERENCES_USER_NAME, ""));
+                                    objEResponse = task.get();
+                                    index++;
+                                } catch (Exception e) {
+
+                                }
+                            }
+                        }
+                    }
+                    if (objEResponse.getStatus()) {
+                        QueryHttpPostServiceTask taskPost = new QueryHttpPostServiceTask(getActivity());
+                        List<NameValuePair> nameValuePair = new ArrayList<NameValuePair>(2);
+                        nameValuePair.add(new BasicNameValuePair("URL", EConstant.URL + "EntryService"));
+                        nameValuePair.add(new BasicNameValuePair("userName", sharedpreferences.getString(EConstant.MY_PREFERENCES_USER_NAME, "")));
+                        nameValuePair.add(new BasicNameValuePair("serial", serial));
+                        nameValuePair.add(new BasicNameValuePair("issue", issue));
+                        taskPost.execute(nameValuePair);
+                        objEResponse = taskPost.get();
+                    }
+                } catch (Exception e) {
+                    Toast.makeText(getActivity(), "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+                progressDialog.dismiss();
+            }
+        }.start();
     }
 }
