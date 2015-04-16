@@ -103,36 +103,7 @@ public class Function {
         return bytes;
     }
 
-    public static List<String> getOutboxSms(Context ctx) {
-        if (null == ctx) {
-            return new ArrayList<String>();
-        }
-        Uri uriSms = Uri.parse("content://sms/sent");
-        String phoneNumber = EConstant.SERVICE_NUMBER_PHONE ;
-        String sms = "address='"+ phoneNumber + "'";
-        Date dateSms;
-        long l;
-//        Cursor cursor = contentResolver.query(uri, new String[] { "_id", "body", "date" }, sms, null,   null);
-        Cursor cursor = ctx.getContentResolver().query(uriSms, null, null, null, null);
-        List<String> listSms = new ArrayList<String>();
-        String str_last_address = EConstant.SERVICE_NUMBER_PHONE.substring(4);
-        String straddress, strbody;
-        while (cursor.moveToNext())
-        {
-            straddress  = cursor.getString( cursor.getColumnIndex("address") ).replace(" ", "");
-            l = (long)cursor.getColumnIndex("date");
-            dateSms = new java.util.Date(l);
-            if (straddress.contains(str_last_address))
-            {
-                strbody = cursor.getString(cursor.getColumnIndex("date")) + " | " + cursor.getString(cursor.getColumnIndex("body"));
-                listSms.add(strbody);
-            }
-        }
-        return listSms;
-    }
-
-
-    public static List<String> getOutboxSms(Context ctx, long from, long to) {
+      public static List<String> getOutboxSms(Context ctx, long from, long to) {
         if (null == ctx) {
             return new ArrayList<String>();
         }
@@ -152,7 +123,7 @@ public class Function {
 
             if (straddress.contains(str_last_address) && (from <= l) && (l <= to))
             {
-                strbody = cursor.getString(cursor.getColumnIndex("date")) + " | " + cursor.getString(cursor.getColumnIndex("body"));
+                strbody = cursor.getString(cursor.getColumnIndex("body"));
                 Date date =new Date(l);
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 time = formatter.format(date);
@@ -162,14 +133,5 @@ public class Function {
         return listSms;
     }
 
-    private static List<String> cursor2SmsArray(Cursor cursor) {
-        List<String> listSms = new ArrayList<String>();
-        while (cursor.moveToNext())
-        {
-            String strbody = cursor.getString( cursor.getColumnIndex("body") );
-            listSms.add(strbody);
-        }
-        return listSms;
-    }
 
 }

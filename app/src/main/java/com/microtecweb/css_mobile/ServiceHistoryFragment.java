@@ -59,6 +59,8 @@ public class ServiceHistoryFragment extends Fragment {
     private int date_dialog_id;
     static final int DATE_DIALOG_ID_FROM = 999;
     static final int DATE_DIALOG_ID_TO = 888;
+    static final int ONE_DAY_TICKET = 1000 * 60 * 60 * 24;
+
     SimpleDateFormat dmyyyy = new SimpleDateFormat("dd-M-yyyy");
     SimpleDateFormat dmmyyyy = new SimpleDateFormat("dd-MMM-yyyy");
     private int yearFrom;
@@ -137,7 +139,7 @@ public class ServiceHistoryFragment extends Fragment {
     private void DisplaySms(View view, ListView listView)
     {
         dateFrom = ConvertToDate(txtFrom.getText().toString()).getTime();
-        dateTo = ConvertToDate(txtTo.getText().toString()).getTime();
+        dateTo = ConvertToDate(txtTo.getText().toString()).getTime() + ONE_DAY_TICKET;
         RadioGroup radioGroup = (RadioGroup)view.findViewById(R.id.radioDirection);
         int id = radioGroup.getCheckedRadioButtonId();
         if (id == R.id.radioInbox) {
@@ -218,35 +220,15 @@ public class ServiceHistoryFragment extends Fragment {
         listView.setAdapter(adapter);
     }
 
-    private List<String> GetListSms() {
-        List<String> listSms = new ArrayList<String>();
-        Uri uri = Uri.parse("content://sms/");
-        ContentResolver contentResolver = ((Context)getActivity()).getContentResolver();
-
-        String phoneNumber = EConstant.SERVICE_NUMBER_PHONE ;
-        String sms = "address='"+ phoneNumber + "'";
-        Cursor cursor = contentResolver.query(uri, new String[] { "_id", "body", "date" }, sms, null,   null);
-        while (cursor.moveToNext())
-        {
-            String strbody = cursor.getString( cursor.getColumnIndex("body") );
-            String d = cursor.getString( cursor.getColumnIndex("date") );
-            long l = (long)Long.parseLong(d);
-            Date date =new Date(l);
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            String s = formatter.format(date);
-            listSms.add(s + " | " + strbody);
-        }
-        return listSms;
-    }
-
-
     private List<String> GetListSms(long from, long to) {
         List<String> listSms = new ArrayList<String>();
         Uri uri = Uri.parse("content://sms/");
         ContentResolver contentResolver = ((Context)getActivity()).getContentResolver();
 
         String phoneNumber = EConstant.SERVICE_NUMBER_PHONE ;
-        String sms = "address='"+ phoneNumber + "'";
+        if (phoneNumber.length() > EConstant.LAST_NUM_QUANLITY)
+            phoneNumber = phoneNumber.substring(phoneNumber.length() - EConstant.LAST_NUM_QUANLITY);
+        String sms = "address like '%"+ phoneNumber + "'";
         Cursor cursor = contentResolver.query(uri, new String[] { "_id", "body", "date" }, sms, null,   null);
         while (cursor.moveToNext())
         {
