@@ -304,10 +304,9 @@ public class RequestServiceFragment extends Fragment {
                         nameValuePair.add(new BasicNameValuePair("serial", serial));
                         nameValuePair.add(new BasicNameValuePair("issue", issue));
                         taskPost.execute(nameValuePair);
-                        objEResponse = taskPost.get();
                     }
                 } catch (Exception e) {
-                    Toast.makeText(getActivity(), "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+
                 }
                 progressDialog.dismiss();
             }
