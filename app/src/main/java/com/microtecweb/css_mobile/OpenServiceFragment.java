@@ -41,7 +41,7 @@ public class OpenServiceFragment extends MicFragment {
             QueryHttpGetListenerServiceTask task = new QueryHttpGetListenerServiceTask(this.getActivity(), this);
             final SharedPreferences sharedpreferences = this.getActivity().getSharedPreferences(EConstant.MY_PREFERENCES, Context.MODE_PRIVATE);
             if (sharedpreferences.contains(EConstant.MY_PREFERENCES_USER_ID) && sharedpreferences.getInt(EConstant.MY_PREFERENCES_USER_ID, -1) != -1) {
-                task.execute(EConstant.URL + "GetAllServicesByUserAssignedId?userAssignedId=" + sharedpreferences.getInt(EConstant.MY_PREFERENCES_USER_ID, -1));
+                task.execute(EConstant.getURL(this.getActivity()) + "GetAllServicesByUserAssignedId?userAssignedId=" + sharedpreferences.getInt(EConstant.MY_PREFERENCES_USER_ID, -1));
             }
         } catch (Exception e) {
         }

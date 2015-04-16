@@ -140,7 +140,7 @@ public class CloseServiceFragment extends MicFragment {
         final SharedPreferences sharedpreferences = this.getActivity().getSharedPreferences(EConstant.MY_PREFERENCES, Context.MODE_PRIVATE);
         if (sharedpreferences.contains(EConstant.MY_PREFERENCES_USER_ID) && sharedpreferences.getInt(EConstant.MY_PREFERENCES_USER_ID, -1) != -1) {
             QueryHttpGetListenerServiceTask task = new QueryHttpGetListenerServiceTask(this.getActivity(), this);
-            task.execute(EConstant.URL + "GetAllServicesClosedByUserAssignedId?userAssignedId=" + sharedpreferences.getInt(EConstant.MY_PREFERENCES_USER_ID, -1));
+            task.execute(EConstant.getURL(this.getActivity()) + "GetAllServicesClosedByUserAssignedId?userAssignedId=" + sharedpreferences.getInt(EConstant.MY_PREFERENCES_USER_ID, -1));
         }
     }
 

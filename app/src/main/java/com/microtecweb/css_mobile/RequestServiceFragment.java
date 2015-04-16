@@ -1,6 +1,7 @@
 package com.microtecweb.css_mobile;
 
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -80,7 +81,7 @@ public class RequestServiceFragment extends Fragment {
         _imageView2 = (ImageView) view.findViewById(R.id.imgCap2);
         _imageView3 = (ImageView) view.findViewById(R.id.imgCap3);
         final QueryHttpGetServiceTask task = new QueryHttpGetServiceTask(this.getActivity());
-        task.execute(EConstant.URL + "GetCustomer");
+        task.execute(EConstant.getURL(this.getActivity()) + "GetCustomer");
         Gson gson = new Gson();
         String json = null;
         try {
@@ -237,7 +238,7 @@ public class RequestServiceFragment extends Fragment {
     private void GetBranch(Spinner spinnerBranch, int customerId) {
         try {
             QueryHttpGetServiceTask task = new QueryHttpGetServiceTask(this.getActivity());
-            task.execute(EConstant.URL + "GetBranch?customerId=" + customerId);
+            task.execute(EConstant.getURL(this.getActivity()) + "GetBranch?customerId=" + customerId);
             Gson gson = new Gson();
             String json = task.get();
             Type collectionType = new TypeToken<List<EBranch>>() {
@@ -253,7 +254,7 @@ public class RequestServiceFragment extends Fragment {
     private void GetATM(Spinner spinnerATM, int branchId) {
         try {
             QueryHttpGetServiceTask task = new QueryHttpGetServiceTask(this.getActivity());
-            task.execute(EConstant.URL + "GetAtmIdSerial?branchId=" + branchId);
+            task.execute(EConstant.getURL(this.getActivity()) + "GetAtmIdSerial?branchId=" + branchId);
             Gson gson = new Gson();
             String json = task.get();
             Type collectionType = new TypeToken<List<EATM>>() {
@@ -275,6 +276,7 @@ public class RequestServiceFragment extends Fragment {
                 try {
                     Integer index = 0;
                     final SharedPreferences sharedpreferences = getActivity().getSharedPreferences(EConstant.MY_PREFERENCES, Context.MODE_PRIVATE);
+                    final Activity activity= getActivity();
                     EResponse objEResponse = new EResponse();
                     for (String pathFileImage : lstPathFileImage) {
                         if (!pathFileImage.isEmpty() && !pathFileImage.equals("")) {
@@ -285,7 +287,7 @@ public class RequestServiceFragment extends Fragment {
                                     String fileName = arrayPathFiles[arrayPathFiles.length - 1];
                                     byte[] byte_arr = Function.getBytesFromFile(fileUpload);
                                     QueryHttpPostUploadFileServiceTask task = new QueryHttpPostUploadFileServiceTask();
-                                    task.execute(EConstant.URL + "UploadImage", Base64.encodeToString(byte_arr, Base64.DEFAULT), fileName, sharedpreferences.getString(EConstant.MY_PREFERENCES_USER_NAME, ""));
+                                    task.execute(EConstant.getURL(activity) + "UploadImage", Base64.encodeToString(byte_arr, Base64.DEFAULT), fileName, sharedpreferences.getString(EConstant.MY_PREFERENCES_USER_NAME, ""));
                                     objEResponse = task.get();
                                     index++;
                                 } catch (Exception e) {
@@ -297,7 +299,7 @@ public class RequestServiceFragment extends Fragment {
                     if (objEResponse.getStatus()) {
                         QueryHttpPostServiceTask taskPost = new QueryHttpPostServiceTask(getActivity());
                         List<NameValuePair> nameValuePair = new ArrayList<NameValuePair>(2);
-                        nameValuePair.add(new BasicNameValuePair("URL", EConstant.URL + "EntryService"));
+                        nameValuePair.add(new BasicNameValuePair("URL", EConstant.getURL(activity) + "EntryService"));
                         nameValuePair.add(new BasicNameValuePair("userName", sharedpreferences.getString(EConstant.MY_PREFERENCES_USER_NAME, "")));
                         nameValuePair.add(new BasicNameValuePair("serial", serial));
                         nameValuePair.add(new BasicNameValuePair("issue", issue));

@@ -79,7 +79,7 @@ public class ChatActivity extends Activity {
         });
     }
     private boolean sendChatMessage(){
-        ChatClientTask myClientTask=new ChatClientTask(EConstant.SERVER_CHAT, EConstant.SERVER_PORT);
+        ChatClientTask myClientTask=new ChatClientTask(EConstant.getSERVER_CHAT(this), EConstant.getSERVER_PORT(this));
         myClientTask.execute();
         chatArrayAdapter.add(new ChatMessage(side, chatText.getText().toString()));
         Log.d(TAG,"Message sent :"+chatText.getText().toString());

@@ -1,6 +1,7 @@
 package com.microtecweb.css_mobile;
 
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.Fragment;
@@ -220,12 +221,34 @@ public class ServiceHistoryFragment extends Fragment {
         listView.setAdapter(adapter);
     }
 
-    private List<String> GetListSms(long from, long to) {
+    private List<String> GetListSms() {
         List<String> listSms = new ArrayList<String>();
         Uri uri = Uri.parse("content://sms/");
         ContentResolver contentResolver = ((Context)getActivity()).getContentResolver();
 
-        String phoneNumber = EConstant.SERVICE_NUMBER_PHONE ;
+        String phoneNumber = EConstant.getSERVICE_NUMBER_PHONE(this.getActivity()) ;
+        String sms = "address='"+ phoneNumber + "'";
+        Cursor cursor = contentResolver.query(uri, new String[] { "_id", "body", "date" }, sms, null,   null);
+        while (cursor.moveToNext())
+        {
+            String strbody = cursor.getString( cursor.getColumnIndex("body") );
+            String d = cursor.getString( cursor.getColumnIndex("date") );
+            long l = (long)Long.parseLong(d);
+            Date date =new Date(l);
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String s = formatter.format(date);
+            listSms.add(s + " | " + strbody);
+        }
+        return listSms;
+    }
+
+
+    private List<String> GetListSms(long from, long to) {
+        List<String> listSms = new ArrayList<String>();
+        Uri uri = Uri.parse("content://sms/");
+        ContentResolver contentResolver = ((Context)getActivity()).getContentResolver();
+       
+        String phoneNumber = EConstant.getSERVICE_NUMBER_PHONE(this.getActivity()) ;
         if (phoneNumber.length() > EConstant.LAST_NUM_QUANLITY)
             phoneNumber = phoneNumber.substring(phoneNumber.length() - EConstant.LAST_NUM_QUANLITY);
         String sms = "address like '%"+ phoneNumber + "'";

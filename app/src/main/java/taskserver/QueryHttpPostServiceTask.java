@@ -31,7 +31,8 @@ import entity.EResponse;
 
 public class QueryHttpPostServiceTask extends AsyncTask<List<NameValuePair>, Integer, EResponse> {
 
-    private  Context context;
+    private Context context;
+
     public QueryHttpPostServiceTask(Context context) {
         this.context = context;
     }
@@ -40,10 +41,8 @@ public class QueryHttpPostServiceTask extends AsyncTask<List<NameValuePair>, Int
     protected EResponse doInBackground(List<NameValuePair>... params) {
         EResponse objResponse = new EResponse();
         String url = "";
-        for(NameValuePair valuePair : params[0])
-        {
-            if(valuePair.getName().equals(("URL")))
-            {
+        for (NameValuePair valuePair : params[0]) {
+            if (valuePair.getName().equals(("URL"))) {
                 url = valuePair.getValue();
             }
         }
@@ -57,18 +56,20 @@ public class QueryHttpPostServiceTask extends AsyncTask<List<NameValuePair>, Int
             if (status == 200) {
                 HttpEntity entity = response.getEntity();
                 objResponse = gson.fromJson(EntityUtils.toString(entity), EResponse.class);
-            }
-            else
+            } else
                 objResponse.setMessage("Error code is " + status);
         } catch (Exception e) {
-            objResponse.setMessage( e.getMessage());
+            objResponse.setMessage(e.getMessage());
         }
         return objResponse;
     }
 
     @Override
     protected void onPostExecute(EResponse result) {
-        Toast.makeText(context, "Post successfully", Toast.LENGTH_SHORT).show();
+        if (result.getStatus())
+            Toast.makeText(context, "Post successfully", Toast.LENGTH_SHORT).show();
+        else
+            Toast.makeText(context, "Error ! " + result.getMessage(), Toast.LENGTH_SHORT).show();
         super.onPostExecute(result);
     }
 

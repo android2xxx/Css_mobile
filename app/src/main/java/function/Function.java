@@ -1,13 +1,12 @@
 package function;
 
-import android.content.ContentResolver;
+import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
-import android.text.TextUtils;
-import java.lang.*;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -17,10 +16,10 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Date;
+import java.util.List;
+
 import entity.EConstant;
-import entity.ESmsRep;
 
 /**
  * Created by HieuHT on 04/02/2015.
@@ -103,28 +102,53 @@ public class Function {
         return bytes;
     }
 
-      public static List<String> getOutboxSms(Context ctx, long from, long to) {
+    public static List<String> getOutboxSms(Context ctx) {
         if (null == ctx) {
             return new ArrayList<String>();
         }
         Uri uriSms = Uri.parse("content://sms/sent");
-        String phoneNumber = EConstant.SERVICE_NUMBER_PHONE ;
-        String sms = "address='"+ phoneNumber + "'";
+        String phoneNumber = EConstant.getSERVICE_NUMBER_PHONE((Activity) ctx);
+        String sms = "address='" + phoneNumber + "'";
+        Date dateSms;
+        long l;
+//        Cursor cursor = contentResolver.query(uri, new String[] { "_id", "body", "date" }, sms, null,   null);
+        Cursor cursor = ctx.getContentResolver().query(uriSms, null, null, null, null);
+        List<String> listSms = new ArrayList<String>();
+        String str_last_address = EConstant.getSERVICE_NUMBER_PHONE((Activity) ctx).substring(4);
+        String straddress, strbody;
+        while (cursor.moveToNext()) {
+            straddress = cursor.getString(cursor.getColumnIndex("address")).replace(" ", "");
+            l = (long) cursor.getColumnIndex("date");
+            dateSms = new java.util.Date(l);
+            if (straddress.contains(str_last_address)) {
+                strbody = cursor.getString(cursor.getColumnIndex("date")) + " | " + cursor.getString(cursor.getColumnIndex("body"));
+                listSms.add(strbody);
+            }
+        }
+        return listSms;
+    }
+
+
+    public static List<String> getOutboxSms(Context ctx, long from, long to) {
+        if (null == ctx) {
+            return new ArrayList<String>();
+        }
+        Uri uriSms = Uri.parse("content://sms/sent");
+        String phoneNumber = EConstant.getSERVICE_NUMBER_PHONE((Activity) ctx);
+        String sms = "address='" + phoneNumber + "'";
         long l;
         Cursor cursor = ctx.getContentResolver().query(uriSms, null, null, null, null);
         List<String> listSms = new ArrayList<String>();
-        String str_last_address = EConstant.SERVICE_NUMBER_PHONE.substring(4);
+        String str_last_address = EConstant.getSERVICE_NUMBER_PHONE((Activity) ctx).substring(4);
         String straddress, strbody, time;
-        while (cursor.moveToNext())
-        {
-            straddress  = cursor.getString( cursor.getColumnIndex("address") ).replace(" ", "");
-            String d = cursor.getString( cursor.getColumnIndex("date") );
-            l = (long)Long.parseLong(d);
+        while (cursor.moveToNext()) {
+            straddress = cursor.getString(cursor.getColumnIndex("address")).replace(" ", "");
+            String d = cursor.getString(cursor.getColumnIndex("date"));
+            l = (long) Long.parseLong(d);
 
-            if (straddress.contains(str_last_address) && (from <= l) && (l <= to))
-            {
-                strbody = cursor.getString(cursor.getColumnIndex("body"));
-                Date date =new Date(l);
+            if (straddress.contains(str_last_address) && (from <= l) && (l <= to)) {
+                strbody = cursor.getString(cursor.getColumnIndex("date")) + " | " + cursor.getString(cursor.getColumnIndex("body"));
+                Date date = new Date(l);
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 time = formatter.format(date);
                 listSms.add(time + " | " + strbody);

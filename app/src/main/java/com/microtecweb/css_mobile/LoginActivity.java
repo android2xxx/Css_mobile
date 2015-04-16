@@ -53,7 +53,7 @@ public class LoginActivity extends MicActivity {
                         Toast.makeText(LoginActivity.this, result, Toast.LENGTH_SHORT).show();
                     } else {
                         QueryHttpGetListenerServiceTask task = new QueryHttpGetListenerServiceTask(LoginActivity.this, null);
-                        task.execute(EConstant.URL + "Authenticate?UserName=" + txtAccount.getText().toString() + "&Password=" + txtPassword.getText().toString());
+                        task.execute(EConstant.getURL(LoginActivity.this) + "Authenticate?UserName=" + txtAccount.getText().toString() + "&Password=" + txtPassword.getText().toString());
 
                     }
 

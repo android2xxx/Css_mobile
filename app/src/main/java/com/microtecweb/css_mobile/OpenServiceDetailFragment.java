@@ -1,5 +1,6 @@
 package com.microtecweb.css_mobile;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -81,7 +82,7 @@ public class OpenServiceDetailFragment extends MicFragment {
         ((ActionBarActivity) this.getActivity()).getSupportActionBar().setTitle("ServiceId: " + serviceId);
         view = inflater.inflate(R.layout.fragment_open_service_detail, container, false);
         QueryHttpGetListenerServiceTask task = new QueryHttpGetListenerServiceTask(this.getActivity(), this);
-        task.execute(EConstant.URL + "GetServiceById?serviceId=" + serviceId);
+        task.execute(EConstant.getURL(this.getActivity()) + "GetServiceById?serviceId=" + serviceId);
         return view;
     }
 
@@ -97,6 +98,7 @@ public class OpenServiceDetailFragment extends MicFragment {
                 try {
                     Integer index = 0;
                     final SharedPreferences sharedpreferences = getActivity().getSharedPreferences(EConstant.MY_PREFERENCES, Context.MODE_PRIVATE);
+                    final Activity activity = getActivity();
                     EResponse objEResponse = new EResponse();
                     for (String pathFileImage : lstPathFileImage) {
                         if (!pathFileImage.isEmpty() && !pathFileImage.equals("")) {
@@ -107,7 +109,7 @@ public class OpenServiceDetailFragment extends MicFragment {
                                     String fileName = arrayPathFiles[arrayPathFiles.length - 1];
                                     byte[] byte_arr = Function.getBytesFromFile(fileUpload);
                                     QueryHttpPostUploadFileServiceTask task = new QueryHttpPostUploadFileServiceTask();
-                                    task.execute(EConstant.URL + "UploadImage", Base64.encodeToString(byte_arr, Base64.DEFAULT), fileName, sharedpreferences.getString(EConstant.MY_PREFERENCES_USER_NAME, ""));
+                                    task.execute(EConstant.getURL(activity) + "UploadImage", Base64.encodeToString(byte_arr, Base64.DEFAULT), fileName, sharedpreferences.getString(EConstant.MY_PREFERENCES_USER_NAME, ""));
                                     objEResponse = task.get();
                                     index++;
                                 } catch (Exception e) {
@@ -119,13 +121,13 @@ public class OpenServiceDetailFragment extends MicFragment {
                     if (objEResponse.getStatus()) {
                         QueryHttpPostServiceTask taskPost = new QueryHttpPostServiceTask(getActivity());
                         List<NameValuePair> nameValuePair = new ArrayList<NameValuePair>(2);
-                        nameValuePair.add(new BasicNameValuePair("URL", EConstant.URL + "CloseService"));
+                        nameValuePair.add(new BasicNameValuePair("URL", EConstant.getURL(activity) + "CloseService"));
                         nameValuePair.add(new BasicNameValuePair("serviceId", String.valueOf(serviceId)));
                         nameValuePair.add(new BasicNameValuePair("issue", issue));
                         nameValuePair.add(new BasicNameValuePair("solution", solution));
                         nameValuePair.add(new BasicNameValuePair("username", sharedpreferences.getString(EConstant.MY_PREFERENCES_USER_NAME, "")));
                         taskPost.execute(nameValuePair);
-                        objEResponse = taskPost.get();
+                        //objEResponse = taskPost.get();
                         /*
                         if (objEResponse.getStatus()) {
                             if (index > 0) {
@@ -262,7 +264,7 @@ public class OpenServiceDetailFragment extends MicFragment {
                 lstServicePart.setAdapter(adapter);
             }
 
-
+            final Activity activity = getActivity();
             final SharedPreferences sharedpreferences = this.getActivity().getSharedPreferences(EConstant.MY_PREFERENCES, Context.MODE_PRIVATE);
             ImageButton btCheckIn = (ImageButton) view.findViewById(R.id.btCheckIn);
             ImageButton btTakePhoto = (ImageButton) view.findViewById(R.id.btTakePhoto);
@@ -277,7 +279,7 @@ public class OpenServiceDetailFragment extends MicFragment {
                 public void onClick(View v) {
                     QueryHttpPostServiceTask taskPost = new QueryHttpPostServiceTask(getActivity());
                     List<NameValuePair> nameValuePair = new ArrayList<NameValuePair>(2);
-                    nameValuePair.add(new BasicNameValuePair("URL", EConstant.URL + "CheckInService"));
+                    nameValuePair.add(new BasicNameValuePair("URL", EConstant.getURL(activity) + "CheckInService"));
                     nameValuePair.add(new BasicNameValuePair("serviceId", String.valueOf(objDetailService.getServiceId())));
                     nameValuePair.add(new BasicNameValuePair("dateTimeAssign", df.format(Calendar.getInstance().getTime())));
                     nameValuePair.add(new BasicNameValuePair("username", sharedpreferences.getString(EConstant.MY_PREFERENCES_USER_NAME, "")));

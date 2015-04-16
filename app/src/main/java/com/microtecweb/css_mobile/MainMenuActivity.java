@@ -58,9 +58,8 @@ public class MainMenuActivity extends ActionBarActivity {
         dataList.add(new EDrawerItem("Completed Service", R.drawable.ic_close_service));
         dataList.add(new EDrawerItem("Todo List", R.drawable.ic_action_search));
         dataList.add(new EDrawerItem("Service History", R.drawable.ic_action_email));
-        dataList.add(new EDrawerItem("Talk to Leader", R.drawable.ic_talk_leader));
-        dataList.add(new EDrawerItem("About", R.drawable.ic_action_about));
-        dataList.add(new EDrawerItem("Help", R.drawable.ic_action_help));
+        dataList.add(new EDrawerItem("Talk To Leader", R.drawable.ic_talk_leader));
+        dataList.add(new EDrawerItem("Config", R.drawable.ic_action_settings));
         dataList.add(new EDrawerItem("Logout", R.drawable.ic_quit));
         adapter = new CustomDrawerAdapter(this, R.layout.custom_drawer_item, dataList);
 
@@ -93,7 +92,7 @@ public class MainMenuActivity extends ActionBarActivity {
         FragmentManager frgManager = getFragmentManager();
         FragmentTransaction fragmentTransaction;
 
-        if(position != 8) {
+        if(position != 7) {
             fragmentTransaction = frgManager.beginTransaction();
             Bundle args = new Bundle();
             while (getFragmentManager().getBackStackEntryCount() > 0) {
@@ -152,7 +151,15 @@ public class MainMenuActivity extends ActionBarActivity {
                 startActivity(myIntent);
                 break;
 
-            case 8:
+            case 6:
+                fragment = new ConfigFragment();
+                fragmentTransaction = frgManager.beginTransaction();
+                fragmentTransaction.replace(R.id.content_frame, fragment, "ConfigFragment");
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+                break;
+
+            case 7:
                 flagSetFragment = false;
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
                 alertDialogBuilder.setTitle("Confirm logout");
@@ -225,6 +232,14 @@ public class MainMenuActivity extends ActionBarActivity {
                     else
                         super.onBackPressed();
                 }
+                Fragment configFragment = getFragmentManager().findFragmentByTag("ConfigFragment");
+                if (configFragment != null) {
+                    if (!configFragment.isVisible())
+                        fragmentTransaction.show(configFragment);
+                    else
+                        super.onBackPressed();
+                }
+
                 fragmentTransaction.commit();
             } else {
                 super.onBackPressed();

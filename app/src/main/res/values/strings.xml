@@ -47,5 +47,10 @@
     <string name="lb_to">To</string>
     <string name="lb_search">Search</string>
     <string name="to_do_list">To do list</string>
-
+     <string name="lb_url_server">URL</string>
+    <string name="lb_chat_server">Server Chat</string>
+    <string name="lb_chat_port">Port Chat</string>
+    <string name="lb_save">Save</string>
+    <string name="lb_restore_default">Restore Default</string>
+    <string name="lb_service_number_phone">Service Number Phone</string>
 </resources>
