@@ -27,11 +27,12 @@ public class CssMobileAplication extends Application {
         ParseObject.registerSubclass(ETask.class);
         Parse.initialize(this, getResources().getString(R.string.key_application_id) , getResources().getString(R.string.key_client));
         ParseInstallation.getCurrentInstallation().saveInBackground();
-        ParseUser currentUser = ParseUser.getCurrentUser();
+
         SharedPreferences sharedpreferences = this.getApplicationContext().getSharedPreferences(EConstant.MY_PREFERENCES, Context.MODE_PRIVATE);
         String userToDoList = EConstant.getUserToDoList(sharedpreferences);
         String passwordToDoList = EConstant.getPasswordToDoList(sharedpreferences);
 
+        ParseUser currentUser = ParseUser.getCurrentUser();
         if (currentUser == null) {
             ParseUser.logInInBackground(userToDoList, passwordToDoList , new LogInCallback() {
                 @Override

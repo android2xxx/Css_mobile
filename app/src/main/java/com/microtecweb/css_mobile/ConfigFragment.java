@@ -14,6 +14,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.parse.LogInCallback;
+import com.parse.ParseException;
+import com.parse.ParseUser;
+
 import entity.EConstant;
 
 
@@ -70,6 +74,21 @@ public class ConfigFragment extends Fragment {
                         editor.putString(EConstant.MY_PREFERENCES_USER_TO_DO_LIST, txtUserToDoList.getText().toString());
                         editor.putString(EConstant.MY_PREFERENCES_PASSWORD_TO_DO_LIST, txtPasswordToDoList.getText().toString());
                         editor.commit();
+
+                        ParseUser currentUser = ParseUser.getCurrentUser();
+                        if (currentUser == null) {
+                            ParseUser.logInInBackground(txtUserToDoList.getText().toString(), txtPasswordToDoList.getText().toString() , new LogInCallback() {
+                                @Override
+                                public void done(ParseUser user, ParseException e) {
+                                    if(user == null)
+                                    {
+                                        Toast.makeText(fragment.getActivity(), "User Password TO DO list không chính xác.", Toast.LENGTH_SHORT).show();
+
+                                    }
+                                }
+                            });
+                        }
+
                         Toast.makeText(fragment.getActivity(), "Save successfully", Toast.LENGTH_SHORT).show();
                     }
                 });

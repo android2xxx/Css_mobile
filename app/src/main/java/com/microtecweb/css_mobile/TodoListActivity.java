@@ -82,9 +82,9 @@ public class TodoListActivity extends Activity implements AdapterView.OnItemClic
         else {
 
             if (EConstant.getPasswordToDoList(activity).equals("") && EConstant.getPasswordToDoList(activity).equals("")) {
-                Toast.makeText(this, "Update user - pass", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Không tồn tại cấu hình User Password TO DO list, qua Menu Config để nhập.", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(this, "Check user - pass", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "User Password TO DO list không chính xác.", Toast.LENGTH_SHORT).show();
             }
         }
     }
