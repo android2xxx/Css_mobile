@@ -22,7 +22,7 @@ import java.io.OutputStream;
 import java.net.Socket;
 
 import adapter.ChatArrayAdapter;
-import entity.ChatMessage;
+import entity.EChatMessage;
 import entity.EConstant;
 
 
@@ -81,7 +81,7 @@ public class ChatActivity extends Activity {
     private boolean sendChatMessage(){
         ChatClientTask myClientTask=new ChatClientTask(EConstant.getSERVER_CHAT(this), EConstant.getSERVER_PORT(this));
         myClientTask.execute();
-        chatArrayAdapter.add(new ChatMessage(side, chatText.getText().toString()));
+        chatArrayAdapter.add(new EChatMessage(side, chatText.getText().toString()));
         Log.d(TAG,"Message sent :"+chatText.getText().toString());
         chatText.setText("");
        // side = !side;
@@ -146,7 +146,7 @@ public class ChatActivity extends Activity {
         @Override
         protected void onPostExecute(Void aVoid) {
             side=true;
-            chatArrayAdapter.add(new ChatMessage(side, reponse));
+            chatArrayAdapter.add(new EChatMessage(side, reponse));
             super.onPostExecute(aVoid);
         }
     }

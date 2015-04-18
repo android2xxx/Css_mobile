@@ -39,6 +39,9 @@ public class EConstant {
     public static final String MY_PREFERENCES_SERVER_PORT = "PREFERENCES_SERVER_PORT";
     public static final String MY_PREFERENCES_SERVICE_NUMBER_PHONE = "PREFERENCES_SERVICE_NUMBER_PHONE";
 
+    public static final String MY_PREFERENCES_USER_TO_DO_LIST = "PREFERENCES_USER_TO_DO_LIST";
+    public static final String MY_PREFERENCES_PASSWORD_TO_DO_LIST = "PREFERENCES_PASSWORD_TO_DO_LIST";
+
     public static String getURL(Activity activity)
     {
         SharedPreferences sharedpreferences = activity.getSharedPreferences(EConstant.MY_PREFERENCES, Context.MODE_PRIVATE);
@@ -73,5 +76,39 @@ public class EConstant {
             return sharedpreferences.getString(EConstant.MY_PREFERENCES_SERVICE_NUMBER_PHONE, EConstant.SERVICE_NUMBER_PHONE);
         else
             return EConstant.SERVICE_NUMBER_PHONE;
-    }    
+    }
+
+    public static String getUserToDoList(Activity activity)
+    {
+        SharedPreferences sharedpreferences = activity.getSharedPreferences(EConstant.MY_PREFERENCES, Context.MODE_PRIVATE);
+        if (sharedpreferences.contains(EConstant.MY_PREFERENCES_USER_TO_DO_LIST))
+            return sharedpreferences.getString(EConstant.MY_PREFERENCES_USER_TO_DO_LIST, "");
+        else
+            return "";
+    }
+
+    public static String getPasswordToDoList(Activity activity)
+    {
+        SharedPreferences sharedpreferences = activity.getSharedPreferences(EConstant.MY_PREFERENCES, Context.MODE_PRIVATE);
+        if (sharedpreferences.contains(EConstant.MY_PREFERENCES_PASSWORD_TO_DO_LIST))
+            return sharedpreferences.getString(EConstant.MY_PREFERENCES_PASSWORD_TO_DO_LIST, "");
+        else
+            return "";
+    }
+
+    public static String getUserToDoList( SharedPreferences sharedpreferences)
+    {
+        if (sharedpreferences.contains(EConstant.MY_PREFERENCES_USER_TO_DO_LIST))
+            return sharedpreferences.getString(EConstant.MY_PREFERENCES_USER_TO_DO_LIST, "");
+        else
+            return "";
+    }
+
+    public static String getPasswordToDoList( SharedPreferences sharedpreferences)
+    {
+        if (sharedpreferences.contains(EConstant.MY_PREFERENCES_PASSWORD_TO_DO_LIST))
+            return sharedpreferences.getString(EConstant.MY_PREFERENCES_PASSWORD_TO_DO_LIST, "");
+        else
+            return "";
+    }
 }

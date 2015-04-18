@@ -53,4 +53,6 @@
     <string name="lb_save">Save</string>
     <string name="lb_restore_default">Restore Default</string>
     <string name="lb_service_number_phone">Service Number Phone</string>
+    <string name="lb_user_to_do_list">User To Do List</string>
+     <string name="lb_password_to_do_list">Password To Do List</string>
 </resources>

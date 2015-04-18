@@ -27,6 +27,8 @@ public class ConfigFragment extends Fragment {
     EditText txtChatServer;
     EditText txtChatPort;
     EditText txtServiceNumberPhone;
+    EditText txtUserToDoList;
+    EditText txtPasswordToDoList;
     SharedPreferences sharedpreferences;
 
     public ConfigFragment() {
@@ -43,6 +45,8 @@ public class ConfigFragment extends Fragment {
         txtChatServer = (EditText) view.findViewById(R.id.txtChatServer);
         txtChatPort = (EditText) view.findViewById(R.id.txtChatPort);
         txtServiceNumberPhone = (EditText) view.findViewById(R.id.txtServiceNumberPhone);
+        txtUserToDoList = (EditText) view.findViewById(R.id.txtUserToDoList);
+        txtPasswordToDoList = (EditText) view.findViewById(R.id.txtPasswordToDoList);
         Button btSaveConfig = (Button) view.findViewById(R.id.btSaveConfig);
         Button btRestoreDefault = (Button) view.findViewById(R.id.btRestoreDefault);
 
@@ -63,6 +67,8 @@ public class ConfigFragment extends Fragment {
                         editor.putString(EConstant.MY_PREFERENCES_SERVER_CHAT, txtChatServer.getText().toString());
                         editor.putInt(EConstant.MY_PREFERENCES_SERVER_PORT, Integer.parseInt(txtChatPort.getText().toString()));
                         editor.putString(EConstant.MY_PREFERENCES_SERVICE_NUMBER_PHONE, txtServiceNumberPhone.getText().toString());
+                        editor.putString(EConstant.MY_PREFERENCES_USER_TO_DO_LIST, txtUserToDoList.getText().toString());
+                        editor.putString(EConstant.MY_PREFERENCES_PASSWORD_TO_DO_LIST, txtPasswordToDoList.getText().toString());
                         editor.commit();
                         Toast.makeText(fragment.getActivity(), "Save successfully", Toast.LENGTH_SHORT).show();
                     }
@@ -94,6 +100,8 @@ public class ConfigFragment extends Fragment {
                                 editor.remove(EConstant.MY_PREFERENCES_SERVER_CHAT);
                                 editor.remove(EConstant.MY_PREFERENCES_SERVER_PORT);
                                 editor.remove(EConstant.MY_PREFERENCES_SERVICE_NUMBER_PHONE);
+                                editor.remove(EConstant.MY_PREFERENCES_USER_TO_DO_LIST);
+                                editor.remove(EConstant.MY_PREFERENCES_PASSWORD_TO_DO_LIST);
                                 editor.commit();
                                 LoadData();
                                 Toast.makeText(fragment.getActivity(), "Restore default successfully", Toast.LENGTH_SHORT).show();
@@ -116,7 +124,8 @@ public class ConfigFragment extends Fragment {
         txtChatServer.setText(EConstant.getSERVER_CHAT(this.getActivity()));
         txtChatPort.setText(String.valueOf(EConstant.getSERVER_PORT(this.getActivity())));
         txtServiceNumberPhone.setText(EConstant.getSERVICE_NUMBER_PHONE(this.getActivity()));
-
+        txtUserToDoList.setText(String.valueOf(EConstant.getUserToDoList(this.getActivity())));
+        txtPasswordToDoList.setText(EConstant.getPasswordToDoList(this.getActivity()));
         /*
         if (sharedpreferences.contains(EConstant.MY_PREFERENCES_URL))
             txtURL.setText(sharedpreferences.getString(EConstant.MY_PREFERENCES_URL, EConstant.URL));

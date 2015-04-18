@@ -111,6 +111,54 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <TextView
+                android:text="@string/lb_user_to_do_list"
+                android:layout_width="1dip"
+                android:layout_weight="2"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="2.5dp"
+                android:layout_marginTop="5dp"
+                android:textStyle="bold"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                android:id="@+id/txtUserToDoList"
+                android:layout_width="1dip"
+                android:layout_weight="2"
+                android:layout_marginLeft="2.5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:text="@string/lb_password_to_do_list"
+                android:layout_width="1dip"
+                android:layout_weight="2"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="2.5dp"
+                android:layout_marginTop="5dp"
+                android:textStyle="bold"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                android:id="@+id/txtPasswordToDoList"
+                android:layout_width="1dip"
+                android:layout_weight="2"
+                android:layout_marginLeft="2.5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
             <LinearLayout
                 android:layout_weight="1"
                 android:layout_width="wrap_content"

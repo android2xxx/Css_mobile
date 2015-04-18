@@ -136,7 +136,8 @@ public class MainMenuActivity extends ActionBarActivity {
                 fragmentTransaction.commit();
                 break;
             case 3:
-                Intent myToDoListIntent = new Intent(this, TodoList.class);
+                flagSetFragment = false;
+                Intent myToDoListIntent = new Intent(this, TodoListActivity.class);
                 startActivity(myToDoListIntent);
                 break;
             case 4:
@@ -147,6 +148,7 @@ public class MainMenuActivity extends ActionBarActivity {
                 fragmentTransaction.commit();
                 break;
             case 5:
+                flagSetFragment = false;
                 Intent myIntent = new Intent(this, ChatActivity.class);
                 startActivity(myIntent);
                 break;
